@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+mLIFE page
+{% endblock title %}
+
+{% block body %}
+    {% for nutrient in nutrients %}
+        <li>{{nutrient}}</li>
+    {% endfor %}
+{% endblock %}
