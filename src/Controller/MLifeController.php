@@ -26,8 +26,23 @@ class MLifeController extends AbstractController
 
         $nutrients = $respository->findBy([],['id' => 'DESC']);
 
+        return $this->render('nutrients/index.html.twig',[
+            'nutrients' => $nutrients,
+            ]
+        );
+    }    
+    #[Route('/nutrients/{id}', methods:["GET"],name: 'nutrients')]
+    public function show($id): Response
+    {
+        $respository = $this->em->getRepository(Nutrient::class);
+
+        $nutrient = $respository->find($id);
+
         // dd($nutrients);
 
-        return $this->render('index.html.twig');
+        return $this->render('nutrients/show.html.twig',[
+            'nutrient' =>$nutrient
+        ]);
     }    
+
 }
