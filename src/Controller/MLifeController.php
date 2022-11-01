@@ -18,8 +18,7 @@ class MLifeController extends AbstractController
     public function __construct(EntityManagerInterface $em){
         $this->em = $em; 
     }
-
-    #[Route('/', name: '')]
+    #[Route('', name: 'MLifeController__index')]
     public function index(): Response
     {
         // findAll() - SELECT * FROM nutrients
@@ -28,6 +27,36 @@ class MLifeController extends AbstractController
         $respository = $this->em->getRepository(Nutrient::class);
 
         $nutrients = $respository->findBy([],['id' => 'DESC']);
+
+        // check if user is logged in
+        if(!$this->getUser()){
+            // user not logged in, redirect to login
+            return $this->redirectToRoute("SecurityController__login");
+        }
+
+        return $this->render('base/index.html.twig');
+    }    
+    #[Route('about/', name: 'MLifeController__about')]
+    public function about(): Response
+    {
+        return $this->render('base/about.html.twig');
+    }    
+
+    #[Route('test/', name: 'MLifeController__test')]
+    public function test(): Response
+    {
+        // findAll() - SELECT * FROM nutrients
+        // find(id) - SELECT * FROM nutrients WHERE id = id
+
+        $respository = $this->em->getRepository(Nutrient::class);
+
+        $nutrients = $respository->findBy([],['id' => 'DESC']);
+
+        // check if user is logged in
+        if(!$this->getUser()){
+            // user not logged in, redirect to login
+            return $this->redirectToRoute("SecurityController__login");
+        }
 
         return $this->render('nutrients/index.html.twig',[
             'nutrients' => $nutrients,
