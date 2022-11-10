@@ -24,16 +24,6 @@ class MLifeController extends AbstractController
         // findAll() - SELECT * FROM nutrients
         // find(id) - SELECT * FROM nutrients WHERE id = id
 
-        $respository = $this->em->getRepository(Nutrient::class);
-
-        $nutrients = $respository->findBy([],['id' => 'DESC']);
-
-        // check if user is logged in
-        if(!$this->getUser()){
-            // user not logged in, redirect to login
-            return $this->redirectToRoute("SecurityController__login");
-        }
-
         return $this->render('index.html.twig');
     }    
     #[Route('about/', name: 'MLifeController__about')]
