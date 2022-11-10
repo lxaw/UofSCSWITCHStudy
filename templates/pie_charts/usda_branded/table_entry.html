@@ -1,0 +1,25 @@
+<tr class = "tr__food-result-entry" onclick="displayMore(this)" data-description="[description]" data-restaurant="[restaurant]" data-img-path ='[img_path]' data-id="[fdc_id]">
+    <th scope = "row">[index]</th>
+    <td>
+        <div class = 'row'>
+            <div class = 'col-6'>
+                <p class = 'p__search-result-text mt-0'>
+                    <strong>Description: </strong>[description]
+                </p>
+            </div>
+            <div class = 'col-6'>
+                <p class = 'p__search-result-text mb-0'>
+                    <strong>Brand Owner: </strong>[brand_owner]
+                </p>
+                <p class = 'p__search-result-text'>
+                    <strong>fdc id: </strong>[fdc_id]
+                </p>
+            </div>
+        </div>
+    </td>
+    <td class = 'text-center'>
+        <img src = "[img_path]" alt = "./imgs/unknown.jpeg"
+        onerror="this.onerror=null;this.src='./imgs/unknown.jpeg'"
+        class = "img img__search-result">
+    </td>
+</tr>

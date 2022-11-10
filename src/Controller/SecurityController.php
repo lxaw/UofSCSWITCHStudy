@@ -24,9 +24,9 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
-    #[Route(path: '/logout', name: 'SecurityController__logout')]
-    public function logout():Response
+    #[Route(path: '/logout', name: 'app_logout')]
+    public function logout(): void
     {
-        return $this->redirectToRoute('MLifeController__index');
+        throw new \LogicException('this method');
     }
 }

@@ -34,13 +34,18 @@ class MLifeController extends AbstractController
             return $this->redirectToRoute("SecurityController__login");
         }
 
-        return $this->render('base/index.html.twig');
+        return $this->render('index.html.twig');
     }    
     #[Route('about/', name: 'MLifeController__about')]
     public function about(): Response
     {
         return $this->render('base/about.html.twig');
     }    
+    #[Route('user/pie_charts/',name:"mLifeController__pie_charts")]
+    public function pie_charts(): Response
+    {
+        return $this->render("pie_charts/index.html.twig");
+    }
 
     #[Route('test/', name: 'MLifeController__test')]
     public function test(): Response
