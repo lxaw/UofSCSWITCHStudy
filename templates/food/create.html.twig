@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Create Food
+{% endblock %}
+
+{% block body %}
+
+<div>
+<h1>
+    Add Food
+</h1>
+{{form_start(form)}}
+    {{form_widget(form)}}
+    <button
+    type = "submit"
+    class = "btn btn-success btn-sm"
+    >
+    Add Food
+    </button>
+{{form_end(form)}}
+</div>
+
+{% endblock body %}

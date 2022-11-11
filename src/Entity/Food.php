@@ -52,7 +52,7 @@ class Food
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $ProteinUnit = null;
 
-    #[ORM\OneToOne(inversedBy: 'food', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'food', cascade: ['persist'])]
     private ?User $User = null;
 
     public function getId(): ?int

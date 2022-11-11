@@ -1,20 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello FoodController!{% endblock %}
+{% block title %}
+    Food
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/opt/lampp/htdocs/mLIFE/mLIFE/src/Controller/FoodController.php'|file_link(0) }}">src/Controller/FoodController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/opt/lampp/htdocs/mLIFE/mLIFE/templates/food/index.html.twig'|file_link(0) }}">templates/food/index.html.twig</a></code></li>
-    </ul>
+    <h1 class = 'text-center'>
+        Foods
+    </h1>
+    <div>
+        <h5>
+            Your Entered Foods
+        </h5>
+        <div>
+            {% for food in foods %}
+            <div class = 'border p-3 mb-3'>
+                <a href="/food/show/{{food.id}}">View</a>
+                <p>Food Name: {{food.FoodName}}</p>
+                <p>Food Id: {{food.id}}</p>
+                <a href="/food/delete/{{food.id}}">Delete?</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <h5>
+        <a href="/food/create">Create</a>
+    </h5>
+
 </div>
+
 {% endblock %}

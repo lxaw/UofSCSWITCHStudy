@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Food;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\User;
 
 /**
  * @extends ServiceEntityRepository<Food>
@@ -63,4 +64,15 @@ class FoodRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findAllByUser(User $user): array
+    {
+        $query = $this->getEntityManager()->createQuery(
+            'SELECT f
+            FROM App\Entity\Food f
+            WHERE f.User = :user
+            '
+        )->setParameter('user',$user);
+        
+        return $query->getResult();
+    }
 }
