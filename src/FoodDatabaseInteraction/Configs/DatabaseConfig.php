@@ -1,5 +1,11 @@
 <?php
 
+namespace App\FoodDatabaseInteraction\Configs;
+
+class DatabaseConfig
+{
+    public $DB_HOST = "127.0.0.1";
+}
 // constants to access mysql
 //
 define("kDB_HOST","127.0.0.1");

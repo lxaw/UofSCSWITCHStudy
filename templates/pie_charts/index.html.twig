@@ -201,34 +201,6 @@
         </div>
     </div> 
 
-<!-- 
-    For hidden menustat entry
--->
-<?php
-    include('templates/menustat/saved_entry.html');
-?>
-
-<!-- 
-    For hidden branded entry
- -->
- <?php
-    include('templates/usda_branded/saved_entry.html');
- ?>
-
-<!-- 
-    For hidden non-branded entry
- -->
-<?php
-    include('templates/usda_non_branded/saved_entry.html');
-?>
-
-<div id = "div__modal-holder">
-
-</div>
-
-</html>
-
-
 {% endblock body %}
 
 {% block javascript %}
@@ -659,25 +631,27 @@
     // also when scrolling
     function ajaxGetFoodSearchResults(strFoodName,strDBType,intOffset){
         console.log('querying: '+ strDBType + ' for ' + strFoodName);
+        console.log("HERE")
 
         return $.ajax({
-            url:'php/funcs/query_names.php',
+            url:'/ajax/search',
             type:'GET',
-            dataType:'html',
+            dataType:'json',
             data:{
                 strQuery:strFoodName,
                 strDBType:strDBType,
                 intOffset:intOffset
             },
             success:function(data){
+                console.log(data);
                 // return the data
                 //
                 return data;
             }
         }).done((response)=>{
-            console.log('success');
+            console.log(response)
         }).fail((response)=>{
-            console.log('fail');
+            console.log(response)
         })
     }
 

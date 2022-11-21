@@ -22,91 +22,91 @@ class FoodFormType extends AbstractType
                     'class'=>'form-control',
                     'type'=>'text'
                 ),
-                'required' => false
+                'required' => true
             ])
             ->add('Restaurant',TextType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'text'
                 ),
-                'required' => false
+                'required' => true
             ])
             ->add('FoodCategory',TextType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'text'
                 ),
-                'required' => false
+                'required' => true
             ])
             ->add('ServingSize',NumberType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'number'
                 ),
-                'required' => false
+                'required' => true
             ])
             ->add('ServingSizeUnit',TextType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'text'
                 ),
-                'required' => false
+                'required' => true
             ])
             ->add('EnergyAmount',NumberType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'number'
                 ),
-                'required' => false
+                'required' => true
             ])
             ->add('EnergyUnit',TextType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'text'
                 ),
-                'required' => false
+                'required' => true
             ])
             ->add('FatAmount',NumberType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'number'
                 ),
-                'required' => false
+                'required' => true
             ])
             ->add('FatUnit',TextType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'text'
                 ),
-                'required' => false
+                'required' => true
             ])
             ->add('CarbAmount',NumberType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'number'
                 ),
-                'required' => false
+                'required' => true
             ])
             ->add('CarbUnit',TextType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'text'
                 ),
-                'required' => false
+                'required' => true
             ])
             ->add('ProteinAmount',NumberType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'number'
                 ),
-                'required' => false
+                'required' => true
             ])
             ->add('ProteinUnit',TextType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'text'
                 ),
-                'required' => false
+                'required' => true
             ])
             // ->add('User')
         ;
