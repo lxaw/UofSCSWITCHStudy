@@ -1,11 +1,12 @@
 <?php
 
+namespace App\FoodDatabaseInteraction\Classes;
+
 // connect to mysql mysqli object
 //
 
 // get configs
 //
-include_once('../configs/db_config.php');
 
 // Class to create connection to 
 // mysql server

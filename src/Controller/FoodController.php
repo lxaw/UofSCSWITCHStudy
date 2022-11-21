@@ -11,6 +11,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Food;
 use App\Form\FoodFormType;
 use Symfony\Component\HttpFoundation\Request;
+// use App\FoodDatabaseInteraction;
+
 
 class FoodController extends AbstractController
 {
@@ -25,6 +27,10 @@ class FoodController extends AbstractController
         $repository = $this->em->getRepository(Food::class);
 
         $foods = $repository->findAllByUser($this->getUser());
+
+        // WORKS
+        // $test = \App\FoodDatabaseInteraction\Test::test("hello");
+
 
         return $this->render('food/index.html.twig', [
             'foods' => $foods,
@@ -94,5 +100,4 @@ class FoodController extends AbstractController
 
         return $this->redirectToRoute('FoodController__index');
     }
-
 }

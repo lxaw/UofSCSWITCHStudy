@@ -1,7 +1,11 @@
 <?php
+
+namespace App\FoodDatabaseInteraction\Classes;
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 
 // see:
 // https://stackoverflow.com/questions/2905696/method-for-creating-php-templates-ie-html-with-variables

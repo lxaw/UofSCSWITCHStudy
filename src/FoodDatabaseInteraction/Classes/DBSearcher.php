@@ -1,14 +1,16 @@
 <?php
+
+namespace App\FoodDatabaseInteraction\Classes;
 // for connection to db
 //
-require_once('MySQLiConnection.php');
+// require_once('MySQLiConnection.php');
 // for str replace if null
 //
-require_once('../funcs/str_replace_if_null.php');
+// require_once('../funcs/str_replace_if_null.php');
 
 // for get img path 
 //
-require_once('../funcs/str_get_img_path.php');
+// require_once('../funcs/str_get_img_path.php');
 
 class DBSearcher{
     // for connection to mysql
