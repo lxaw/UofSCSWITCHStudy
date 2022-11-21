@@ -42,6 +42,26 @@ class FoodController extends AbstractController
             'food' => $food
         ]);
     }
+    #[Route('/food/edit/{id}', methods: ["GET"],name:'FoodController__editFoodById')]
+    public function edit($id,Request $request): Response
+    {
+        $repository = $this->em->getRepository(Food::class);
+
+        $food = $repository->find($id);
+
+        $form = $this->createForm(FoodFormType::class, $food);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            dd("OK");
+        }
+
+
+        return $this->render('food/edit.html.twig',[
+            'food' => $food,
+            'form' => $form->createView()
+        ]);
+    }
     #[Route('/food/create',name:'FoodController__createFood')]
     public function create(Request $request): Response
     {

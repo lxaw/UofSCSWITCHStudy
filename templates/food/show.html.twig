@@ -10,6 +10,53 @@
     <h1>
     Food Name: {{food.FoodName}}
     </h1>
+    <div >
+        <p>
+        Author: {{food.User.email}}
+        </p>
+        <p>
+        Restaurant: {{food.Restaurant}}
+        </p>
+        <p>
+        Food Category: {{food.FoodCategory}}
+        </p>
+        <p>
+        Serving Size: {{food.ServingSize}}
+        </p>
+        <p>
+        Serving Size Unit: {{food.ServingSizeUnit}}
+        </p>
+        <p>
+        Energy Amount: {{food.EnergyAmount}}
+        </p>
+        <p>
+        Energy Amount Unit: {{food.EnergyUnit}}
+        </p>
+        <p>
+        Fat Amount: {{food.FatAmount}}
+        </p>
+        <p>
+        Fat Amount Unit: {{food.FatUnit}}
+        </p>
+        <p>
+        Carb Amount: {{food.CarbAmount}}
+        </p>
+        <p>
+        Carb Amount Unit: {{food.CarbUnit}}
+        </p>
+        <p>
+        Protein Amount: {{food.ProteinAmount}}
+        </p>
+        <p>
+        Protein Amount Unit: {{food.ProteinUnit}}
+        </p>
+
+        </div>
+        <div>
+        <a href = "/food/edit/{{food.id}}">
+            Edit
+        </a>
+    </div>
 </div>
 
 {% endblock body %}
