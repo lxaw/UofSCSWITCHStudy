@@ -1,6 +1,8 @@
 <?php
 
 namespace App\FoodDatabaseInteraction\Classes;
+use App\FoodDatabaseInteraction\Classes\MySQLiConnection;
+use App\FoodDatabaseInteraction\Classes\Util;
 // for connection to db
 //
 // require_once('MySQLiConnection.php');
@@ -20,6 +22,7 @@ class DBSearcher{
     function __construct(){
         // upon construction create a mysql connection
         $this->_MySQLiConnection = new MySQLiConnection();
+        $this->_Util = new Util();
     }
 
     // Queries the menustat db.
@@ -49,23 +52,23 @@ class DBSearcher{
         $templateData = array(
             'data_type'=>kDataTypeMenustat,
             'id'=>$strId,
-            'description'=>strReplaceIfNull($data[0]['description'],kNULL_REPLACEMENT),
-            'restaurant'=>strReplaceIfNull($data[0]['restaurant'],kNULL_REPLACEMENT),
-            'img_src'=>strGetImgPath($data[0]['description'],$data[0]['restaurant'],kIMG_DIR.'/'.kMENUSTAT_IMGS)
+            'description'=>$this->_Util->strReplaceIfNull($data[0]['description'],kNULL_REPLACEMENT),
+            'restaurant'=>$this->_Util->strReplaceIfNull($data[0]['restaurant'],kNULL_REPLACEMENT),
+            'img_src'=>$this->_Util->strGetImgPath($data[0]['description'],$data[0]['restaurant'],kIMG_DIR.'/'.kMENUSTAT_IMGS)
         );
         // populate the data that does change between entries
         //
         foreach($data as $tableEntry){
             $arrSubEntry = array(
-                'serving_size'=>strReplaceIfNull($tableEntry['serving_size'],kNULL_REPLACEMENT),
-                'serving_size_unit'=>strReplaceIfNull($tableEntry['serving_size_unit'],kNULL_REPLACEMENT),
-                'serving_size_text'=>strReplaceIfNull($tableEntry['serving_size_text'],kNULL_REPLACEMENT),
-                'protein_amount'=>strReplaceIfNull($tableEntry['protein_amount'],kNULL_REPLACEMENT),
-                'energy_amount'=>strReplaceIfNull($tableEntry['energy_amount'],kNULL_REPLACEMENT),
-                'fat_amount'=>strReplaceIfNull($tableEntry['fat_amount'],kNULL_REPLACEMENT),
-                'carb_amount'=>strReplaceIfNull($tableEntry['carb_amount'],kNULL_REPLACEMENT),
-                'potassium_amount'=>strReplaceIfNull($tableEntry['potassium_amount'],kNULL_REPLACEMENT),
-                'fiber_amount'=>strReplaceIfNull($tableEntry['fiber_amount'],kNULL_REPLACEMENT)
+                'serving_size'=>$this->_Util->strReplaceIfNull($tableEntry['serving_size'],kNULL_REPLACEMENT),
+                'serving_size_unit'=>$this->_Util->strReplaceIfNull($tableEntry['serving_size_unit'],kNULL_REPLACEMENT),
+                'serving_size_text'=>$this->_Util->strReplaceIfNull($tableEntry['serving_size_text'],kNULL_REPLACEMENT),
+                'protein_amount'=>$this->_Util->strReplaceIfNull($tableEntry['protein_amount'],kNULL_REPLACEMENT),
+                'energy_amount'=>$this->_Util->strReplaceIfNull($tableEntry['energy_amount'],kNULL_REPLACEMENT),
+                'fat_amount'=>$this->_Util->strReplaceIfNull($tableEntry['fat_amount'],kNULL_REPLACEMENT),
+                'carb_amount'=>$this->_Util->strReplaceIfNull($tableEntry['carb_amount'],kNULL_REPLACEMENT),
+                'potassium_amount'=>$this->_Util->strReplaceIfNull($tableEntry['potassium_amount'],kNULL_REPLACEMENT),
+                'fiber_amount'=>$this->_Util->strReplaceIfNull($tableEntry['fiber_amount'],kNULL_REPLACEMENT)
             );
             // push template data
             //
@@ -123,10 +126,10 @@ class DBSearcher{
         foreach($data as $subArr){
             // perform checks for nulls here
             //
-            $strRestaurant = strReplaceIfNull($subArr['restaurant'],kNULL_REPLACEMENT);
-            $strDescription= strReplaceIfNull($subArr['description'],kNULL_REPLACEMENT);
-            $strImgPath = strGetImgPath($strDescription,$strRestaurant,kIMG_DIR.'/'.kMENUSTAT_IMGS);
-            $strId = strReplaceIfNull($subArr['menustat_id'],kNULL_REPLACEMENT);
+            $strRestaurant = $this->_Util->strReplaceIfNull($subArr['restaurant'],kNULL_REPLACEMENT);
+            $strDescription= $this->_Util->strReplaceIfNull($subArr['description'],kNULL_REPLACEMENT);
+            $strImgPath = $this->_Util->strGetImgPath($strDescription,$strRestaurant,kIMG_DIR.'/'.kMENUSTAT_IMGS);
+            $strId = $this->_Util->strReplaceIfNull($subArr['menustat_id'],kNULL_REPLACEMENT);
 
             $templateData = array(
                 "index" =>$intIndex,
@@ -184,10 +187,10 @@ class DBSearcher{
         foreach($data as $subArr){
             // perform checks for nulls here
             //
-            $strBrandOwner= strReplaceIfNull($subArr['brand_owner'],kNULL_REPLACEMENT);
-            $strDescription= strReplaceIfNull($subArr['description'],kNULL_REPLACEMENT);
-            $strImgPath = strGetImgPath($strDescription,$strBrandOwner,kIMG_DIR.'/'.kUSDA_BRANDED_IMGS);
-            $strFdcId= strReplaceIfNull($subArr['fdc_id'],kNULL_REPLACEMENT);
+            $strBrandOwner= $this->_Util->strReplaceIfNull($subArr['brand_owner'],kNULL_REPLACEMENT);
+            $strDescription= $this->_Util->strReplaceIfNull($subArr['description'],kNULL_REPLACEMENT);
+            $strImgPath = $this->_Util->strGetImgPath($strDescription,$strBrandOwner,kIMG_DIR.'/'.kUSDA_BRANDED_IMGS);
+            $strFdcId= $this->_Util->strReplaceIfNull($subArr['fdc_id'],kNULL_REPLACEMENT);
 
             $templateData = array(
                 "index" =>$intIndex,
@@ -244,14 +247,14 @@ class DBSearcher{
         foreach($data as $subArr){
             // perform checks for nulls here
             //
-            $strDescription= strReplaceIfNull($subArr['description'],kNULL_REPLACEMENT);
-            $strFdcId= strReplaceIfNull($subArr['fdc_id'],kNULL_REPLACEMENT);
+            $strDescription= $this->_Util->strReplaceIfNull($subArr['description'],kNULL_REPLACEMENT);
+            $strFdcId= $this->_Util->strReplaceIfNull($subArr['fdc_id'],kNULL_REPLACEMENT);
 
             // to do:
             // usda_non_branded has no restaurant / brand owner info, so the
             // format for an image path is slightly different
             //
-            $strImgPath = strGetImgPathNoRestaurant($strDescription,kIMG_DIR.'/'.kUSDA_NON_BRANDED_IMGS);
+            $strImgPath = $this->_Util->strGetImgPathNoRestaurant($strDescription,kIMG_DIR.'/'.kUSDA_NON_BRANDED_IMGS);
 
             $templateData = array(
                 "index" =>$intIndex,
@@ -308,29 +311,29 @@ class DBSearcher{
             // get the description (only need to get once)
             //
             if($boolFirstLoop){
-                $templateData['description'] = strReplaceIfNull($tableEntry['description'],kNULL_REPLACEMENT);
-                $templateData['img_src'] = strGetImgPath($templateData['description'],$tableEntry['brand_owner'],kIMG_DIR.'/'.kUSDA_BRANDED_IMGS);
-                $templateData['brand_owner']=strReplaceIfNull($tableEntry['brand_owner'],kNULL_REPLACEMENT);
+                $templateData['description'] = $this->_Util->strReplaceIfNull($tableEntry['description'],kNULL_REPLACEMENT);
+                $templateData['img_src'] = $this->_Util->strGetImgPath($templateData['description'],$tableEntry['brand_owner'],kIMG_DIR.'/'.kUSDA_BRANDED_IMGS);
+                $templateData['brand_owner']=$this->_Util->strReplaceIfNull($tableEntry['brand_owner'],kNULL_REPLACEMENT);
                 $boolFirstLoop = FALSE;
             }
 
             // likely have multiple table entries
             //
             $arrSubEntry = array(
-                'serving_size'=>strReplaceIfNull($tableEntry['serving_size'],kNULL_REPLACEMENT),
-                'serving_size_unit'=>strReplaceIfNull($tableEntry['serving_size_unit'],kNULL_REPLACEMENT),
-                'protein_amount'=>strReplaceIfNull($tableEntry['protein_amount'],kNULL_REPLACEMENT),
-                'protein_unit'=>strReplaceIfNull($tableEntry['protein_unit'],kNULL_REPLACEMENT),
-                'energy_amount'=>strReplaceIfNull($tableEntry['energy_amount'],kNULL_REPLACEMENT),
-                'energy_unit'=>strReplaceIfNull($tableEntry['energy_unit'],kNULL_REPLACEMENT),
-                'carb_amount'=>strReplaceIfNull($tableEntry['carb_amount'],kNULL_REPLACEMENT),
-                'carb_unit'=>strReplaceIfNull($tableEntry['carb_unit'],kNULL_REPLACEMENT),
-                'fat_amount'=>strReplaceIfNull($tableEntry['fat_amount'],kNULL_REPLACEMENT),
-                'fat_unit'=>strReplaceIfNull($tableEntry['fat_unit'],kNULL_REPLACEMENT),
-                'potassium_amount'=>strReplaceIfNull($tableEntry['potassium_amount'],kNULL_REPLACEMENT),
-                'potassium_unit'=>strReplaceIfNull($tableEntry['potassium_unit'],kNULL_REPLACEMENT),
-                'fiber_amount'=>strReplaceIfNull($tableEntry['fiber_amount'],kNULL_REPLACEMENT),
-                'fiber_unit'=>strReplaceIfNull($tableEntry['fiber_unit'],kNULL_REPLACEMENT),
+                'serving_size'=>$this->_Util->strReplaceIfNull($tableEntry['serving_size'],kNULL_REPLACEMENT),
+                'serving_size_unit'=>$this->_Util->strReplaceIfNull($tableEntry['serving_size_unit'],kNULL_REPLACEMENT),
+                'protein_amount'=>$this->_Util->strReplaceIfNull($tableEntry['protein_amount'],kNULL_REPLACEMENT),
+                'protein_unit'=>$this->_Util->strReplaceIfNull($tableEntry['protein_unit'],kNULL_REPLACEMENT),
+                'energy_amount'=>$this->_Util->strReplaceIfNull($tableEntry['energy_amount'],kNULL_REPLACEMENT),
+                'energy_unit'=>$this->_Util->strReplaceIfNull($tableEntry['energy_unit'],kNULL_REPLACEMENT),
+                'carb_amount'=>$this->_Util->strReplaceIfNull($tableEntry['carb_amount'],kNULL_REPLACEMENT),
+                'carb_unit'=>$this->_Util->strReplaceIfNull($tableEntry['carb_unit'],kNULL_REPLACEMENT),
+                'fat_amount'=>$this->_Util->strReplaceIfNull($tableEntry['fat_amount'],kNULL_REPLACEMENT),
+                'fat_unit'=>$this->_Util->strReplaceIfNull($tableEntry['fat_unit'],kNULL_REPLACEMENT),
+                'potassium_amount'=>$this->_Util->strReplaceIfNull($tableEntry['potassium_amount'],kNULL_REPLACEMENT),
+                'potassium_unit'=>$this->_Util->strReplaceIfNull($tableEntry['potassium_unit'],kNULL_REPLACEMENT),
+                'fiber_amount'=>$this->_Util->strReplaceIfNull($tableEntry['fiber_amount'],kNULL_REPLACEMENT),
+                'fiber_unit'=>$this->_Util->strReplaceIfNull($tableEntry['fiber_unit'],kNULL_REPLACEMENT),
             );
             // push to template data
             //
@@ -382,30 +385,30 @@ class DBSearcher{
             // get the description (only need to get once)
             //
             if($boolFirstLoop){
-                $templateData['description'] = strReplaceIfNull($tableEntry['description'],kNULL_REPLACEMENT);
-                $templateData['img_src'] = strGetImgPathNoRestaurant($templateData['description'],kIMG_DIR.'/'.kUSDA_NON_BRANDED_IMGS);
+                $templateData['description'] = $this->_Util->strReplaceIfNull($tableEntry['description'],kNULL_REPLACEMENT);
+                $templateData['img_src'] = $this->_Util->strGetImgPathNoRestaurant($templateData['description'],kIMG_DIR.'/'.kUSDA_NON_BRANDED_IMGS);
                 $boolFirstLoop = FALSE;
             }
 
             // likely have multiple table entries
             //
             $arrSubEntry = array(
-                'serving_size'=>strReplaceIfNull($tableEntry['serving_size'],kNULL_REPLACEMENT),
-                'protein_amount'=>strReplaceIfNull($tableEntry['protein_amount'],kNULL_REPLACEMENT),
-                'protein_unit'=>strReplaceIfNull($tableEntry['protein_unit'],kNULL_REPLACEMENT),
-                'energy_amount'=>strReplaceIfNull($tableEntry['energy_amount'],kNULL_REPLACEMENT),
-                'energy_unit'=>strReplaceIfNull($tableEntry['energy_unit'],kNULL_REPLACEMENT),
-                'carb_amount'=>strReplaceIfNull($tableEntry['carb_amount'],kNULL_REPLACEMENT),
-                'carb_unit'=>strReplaceIfNull($tableEntry['carb_unit'],kNULL_REPLACEMENT),
-                'fat_amount'=>strReplaceIfNull($tableEntry['fat_amount'],kNULL_REPLACEMENT),
-                'fat_unit'=>strReplaceIfNull($tableEntry['fat_unit'],kNULL_REPLACEMENT),
-                'protein_amount'=>strReplaceIfNull($tableEntry['protein_amount'],kNULL_REPLACEMENT),
-                'protein_unit'=>strReplaceIfNull($tableEntry['protein_unit'],kNULL_REPLACEMENT),
-                'fiber_amount'=>strReplaceIfNull($tableEntry['fiber_amount'],kNULL_REPLACEMENT),
-                'fiber_unit'=>strReplaceIfNull($tableEntry['fiber_unit'],kNULL_REPLACEMENT),
-                'serving_text'=>strReplaceIfNull($tableEntry['serving_text'],kNULL_REPLACEMENT),
-                'potassium_amount'=>strReplaceIfNull($tableEntry['potassium_amount'],kNULL_REPLACEMENT),
-                'potassium_unit'=>strReplaceIfNull($tableEntry['potassium_unit'],kNULL_REPLACEMENT),
+                'serving_size'=>$this->_Util->strReplaceIfNull($tableEntry['serving_size'],kNULL_REPLACEMENT),
+                'protein_amount'=>$this->_Util->strReplaceIfNull($tableEntry['protein_amount'],kNULL_REPLACEMENT),
+                'protein_unit'=>$this->_Util->strReplaceIfNull($tableEntry['protein_unit'],kNULL_REPLACEMENT),
+                'energy_amount'=>$this->_Util->strReplaceIfNull($tableEntry['energy_amount'],kNULL_REPLACEMENT),
+                'energy_unit'=>$this->_Util->strReplaceIfNull($tableEntry['energy_unit'],kNULL_REPLACEMENT),
+                'carb_amount'=>$this->_Util->strReplaceIfNull($tableEntry['carb_amount'],kNULL_REPLACEMENT),
+                'carb_unit'=>$this->_Util->strReplaceIfNull($tableEntry['carb_unit'],kNULL_REPLACEMENT),
+                'fat_amount'=>$this->_Util->strReplaceIfNull($tableEntry['fat_amount'],kNULL_REPLACEMENT),
+                'fat_unit'=>$this->_Util->strReplaceIfNull($tableEntry['fat_unit'],kNULL_REPLACEMENT),
+                'protein_amount'=>$this->_Util->strReplaceIfNull($tableEntry['protein_amount'],kNULL_REPLACEMENT),
+                'protein_unit'=>$this->_Util->strReplaceIfNull($tableEntry['protein_unit'],kNULL_REPLACEMENT),
+                'fiber_amount'=>$this->_Util->strReplaceIfNull($tableEntry['fiber_amount'],kNULL_REPLACEMENT),
+                'fiber_unit'=>$this->_Util->strReplaceIfNull($tableEntry['fiber_unit'],kNULL_REPLACEMENT),
+                'serving_text'=>$this->_Util->strReplaceIfNull($tableEntry['serving_text'],kNULL_REPLACEMENT),
+                'potassium_amount'=>$this->_Util->strReplaceIfNull($tableEntry['potassium_amount'],kNULL_REPLACEMENT),
+                'potassium_unit'=>$this->_Util->strReplaceIfNull($tableEntry['potassium_unit'],kNULL_REPLACEMENT),
             );
             // push to template data
             //

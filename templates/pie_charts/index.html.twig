@@ -631,12 +631,11 @@
     // also when scrolling
     function ajaxGetFoodSearchResults(strFoodName,strDBType,intOffset){
         console.log('querying: '+ strDBType + ' for ' + strFoodName);
-        console.log("HERE")
 
         return $.ajax({
-            url:'/ajax/search',
+            url:'/ajax/queryNames',
             type:'GET',
-            dataType:'json',
+            dataType:'text',
             data:{
                 strQuery:strFoodName,
                 strDBType:strDBType,
