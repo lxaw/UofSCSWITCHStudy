@@ -2,6 +2,8 @@
 
 namespace App\FoodDatabaseInteraction\Classes;
 
+use App\FoodDatabaseInteraction\Configs\DatabaseConfig;
+
 // connect to mysql mysqli object
 //
 
@@ -31,8 +33,9 @@ class MySQLiConnection{
     private function OpenConn(){
         // open connection
         //
+        $ddb = new DatabaseConfig();
         try{
-            $this->conn = new mysqli(kDB_HOST,kDB_USER,kDB_PASSWORD,kDB_NAME
+            $this->conn = new \mysqli(kDB_HOST,kDB_USER,kDB_PASSWORD,kDB_NAME
             ) or 
             die("connection failed: %s\n".$conn->error);
         }catch(Exception $e){

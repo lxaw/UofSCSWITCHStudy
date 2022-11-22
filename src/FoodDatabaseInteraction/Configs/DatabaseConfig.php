@@ -4,7 +4,7 @@ namespace App\FoodDatabaseInteraction\Configs;
 
 class DatabaseConfig
 {
-    public $DB_HOST = "127.0.0.1";
+    public static $DB_HOST = "127.0.0.1";
 }
 // constants to access mysql
 //

@@ -13,7 +13,8 @@ use App\Form\NutrientFormType;
 use Symfony\Component\HttpFoundation\Request;
 
 // see: https://stackoverflow.com/questions/38317137/symfony2-how-to-call-php-function-from-controller
-use App\FoodDatabaseInteraction\Configs;
+use App\FoodDatabaseInteraction\Classes\DBSearcher;
+use App\FoodDatabaseInteraction\Classes\TemplateLoader;
 
 class MLifeController extends AbstractController
 {
@@ -41,12 +42,32 @@ class MLifeController extends AbstractController
         return $this->render("pie_charts/index.html.twig");
     }
 
-    #[Route('ajax/search',methods:["GET"],name:"search")]
+    #[Route('ajax/queryNames',methods:["GET"],name:"search")]
     public function queryDb(Request $request): Response
     {
+        $dbSearcher = new DBSearcher();
+
+        $strQuery = $request->get("strQuery");
+        $strDBType = $request->get("strDBType");
+        $intOffset = (int)$request->get("intOffset");
+
+        switch($strDBType){
+            case "menustat":
+                $arrAllTemplateData = $dbSearcher->arrQueryMenustatNames($strQuery,$intOffset);
+                return new JsonResponse($arrAllTemplateData);
+                break;
+            case "usda_branded":
+                break;
+            case "usda_non-branded":
+                break;
+            default:
+                break;
+        }
+
         $response = array(
             'status'=>'status',
-            'message'=>'message'
+            'message'=>'message',
+            'strQuery'=>$strQuery
         );
         return new JsonResponse($response);
     }
