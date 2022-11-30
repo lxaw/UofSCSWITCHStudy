@@ -1,6 +1,7 @@
 <?php
 
 namespace App\FoodDatabaseInteraction\Classes;
+use App\FoodDatabaseInteraction\Configs\DatabaseConfig;
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
