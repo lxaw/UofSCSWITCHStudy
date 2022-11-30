@@ -51,9 +51,9 @@ class DBSearcher{
         // populate all of the data that doesn't change between entries
         //
         $templateData = array(
-            'data_type'=>DatabaseConfig::$$DATA_TYPE_MENUSTAT,
+            'data_type'=>DatabaseConfig::$DATA_TYPE_MENUSTAT,
             'id'=>$strId,
-            'description'=>$this->_Util->strReplaceIfNull($data[0]['description'],DatabaseConfig::$$NULL_REPLACEMENT),
+            'description'=>$this->_Util->strReplaceIfNull($data[0]['description'],DatabaseConfig::$NULL_REPLACEMENT),
             'restaurant'=>$this->_Util->strReplaceIfNull($data[0]['restaurant'],DatabaseConfig::$NULL_REPLACEMENT),
             'img_src'=>$this->_Util->strGetImgPath($data[0]['description'],$data[0]['restaurant'],DatabaseConfig::$IMG_DIR.'/'.DataBaseConfig::$MENUSTAT_IMGS)
         );

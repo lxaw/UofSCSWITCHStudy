@@ -199,7 +199,6 @@
             </div>
         </div>
         </div>
-    </div> 
 
 {% endblock body %}
 
@@ -508,17 +507,17 @@
         // consider the type of data
         // ie: menustat, usda_branded, usda_non_branded
         //
-        var strDBType = $("#select__db-options").val();
+        var strDbType = $("#select__db-options").val();
         // get id
         //
         var strId = $(trE).attr('data-id');
 
         $.ajax({
-            url: "php/funcs/query_info.php",
+            url: "/ajax/queryData/",
             type:'GET',
-            dataType:'html',
+            dataType:'text',
             data:{
-                strDBType:strDBType,
+                strDbType:strDbType,
                 strId:strId,
             },
             success:function(data){
@@ -529,8 +528,8 @@
                 //
 
                 // sanity check
-                // console.log(data)
                 let arrData = JSON.parse(data);
+                console.log(arrData);
 
                 // datatype
                 //
@@ -571,7 +570,7 @@
                 // add a save feature
                 //
                 $('#simpleModal').find('.btn__add-to-saved').first().click(()=>{
-                    addToSavedClick(strDBType,$('#simpleModal'),trE);
+                    addToSavedClick(strDbType,$('#simpleModal'),trE);
                 })
                 
             }

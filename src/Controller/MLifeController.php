@@ -42,8 +42,9 @@ class MLifeController extends AbstractController
         return $this->render("pie_charts/index.html.twig");
     }
 
-    #[Route('ajax/queryNames',methods:["GET"],name:"search")]
-    public function queryDb(Request $request): Response
+    // query the names of the database, get the initial search food info and the food image
+    #[Route('ajax/queryNames',methods:["GET"],name:"queryNames")]
+    public function queryNames(Request $request): Response
     {
         $dbSearcher = new DBSearcher();
         $templateLoader = new TemplateLoader();
@@ -86,4 +87,30 @@ class MLifeController extends AbstractController
         return new Response($strOut);
     }
     
+    #[Route('ajax/queryData',methods:["GET"],name:"queryData")] 
+    public function queryData(Request $request): Response
+    {
+        $dbSearcher = new DBSearcher();
+        $templateLoader = new TemplateLoader();
+
+        $strDbType = $request->get("strDbType");
+        $strId = $request->get("strId");
+
+        // return str
+        $arrTemplateData = array();
+
+        switch($strDbType){
+            case "menustat":
+                $arrTemplateData = $dbSearcher->arrQueryMenustatDetail($strId);
+                break;
+            case "usda_branded":
+                break;
+            case "usda_non-branded":
+                break;
+            default:
+                break;
+        }
+
+        return new JsonResponse($arrTemplateData);
+    }
 }
