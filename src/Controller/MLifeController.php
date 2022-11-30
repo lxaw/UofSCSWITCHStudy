@@ -46,30 +46,44 @@ class MLifeController extends AbstractController
     public function queryDb(Request $request): Response
     {
         $dbSearcher = new DBSearcher();
+        $templateLoader = new TemplateLoader();
 
         $strQuery = $request->get("strQuery");
         $strDBType = $request->get("strDBType");
         $intOffset = (int)$request->get("intOffset");
 
+        $rootDir = $this->getParameter('kernel.project_dir');
+
+
+        $strOut = "";
+
         switch($strDBType){
             case "menustat":
                 $arrAllTemplateData = $dbSearcher->arrQueryMenustatNames($strQuery,$intOffset);
-                return new JsonResponse($arrAllTemplateData);
+                foreach($arrAllTemplateData as $subArr){
+                    $tempBody = $templateLoader->strTemplateToStr($subArr,$rootDir."/templates/pie_charts/menustat/table_entry.html");
+                    $strOut = $strOut.$tempBody;
+                }
                 break;
             case "usda_branded":
+                $arrAllTemplateData = $dbSearcher->arrQueryUSDABrandedNames($strQuery,$intOffset);
+                foreach($arrAllTemplateData as $subArr){
+                    $tempBody = $templateLoader->strTemplateToStr($subArr,$rootDir."/templates/pie_charts/usda_branded/table_entry.html");
+                    $strOut = $strOut.$tempBody;
+                }
                 break;
             case "usda_non-branded":
+                $arrAllTemplateData = $dbSearcher->arrQueryUSDANonBrandedNames($strQuery,$intOffset);
+                foreach($arrAllTemplateData as $subArr){
+                    $tempBody = $templateLoader->strTemplateToStr($subArr,$rootDir."/templates/pie_charts/usda_non_branded/table_entry.html");
+                    $strOut = $strOut.$tempBody;
+                }
                 break;
             default:
                 break;
         }
 
-        $response = array(
-            'status'=>'status',
-            'message'=>'message',
-            'strQuery'=>$strQuery
-        );
-        return new JsonResponse($response);
+        return new Response($strOut);
     }
     
 }
