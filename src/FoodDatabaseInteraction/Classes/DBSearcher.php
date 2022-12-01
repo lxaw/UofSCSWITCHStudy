@@ -55,7 +55,6 @@ class DBSearcher{
             'id'=>$strId,
             'description'=>$this->_Util->strReplaceIfNull($data[0]['description'],DatabaseConfig::$NULL_REPLACEMENT),
             'restaurant'=>$this->_Util->strReplaceIfNull($data[0]['restaurant'],DatabaseConfig::$NULL_REPLACEMENT),
-            'img_src'=>$this->_Util->strGetImgPath($data[0]['description'],$data[0]['restaurant'],DatabaseConfig::$IMG_DIR.'/'.DataBaseConfig::$MENUSTAT_IMGS)
         );
         // populate the data that does change between entries
         //
@@ -313,7 +312,6 @@ class DBSearcher{
             //
             if($boolFirstLoop){
                 $templateData['description'] = $this->_Util->strReplaceIfNull($tableEntry['description'],DatabaseConfig::$NULL_REPLACEMENT);
-                $templateData['img_src'] = $this->_Util->strGetImgPath($templateData['description'],$tableEntry['brand_owner'],DatabaseConfig::$IMG_DIR.'/'.DatabaseConfig::$USDA_BRANDED_IMGS);
                 $templateData['brand_owner']=$this->_Util->strReplaceIfNull($tableEntry['brand_owner'],DatabaseConfig::$NULL_REPLACEMENT);
                 $boolFirstLoop = FALSE;
             }
@@ -387,7 +385,6 @@ class DBSearcher{
             //
             if($boolFirstLoop){
                 $templateData['description'] = $this->_Util->strReplaceIfNull($tableEntry['description'],DatabaseConfig::$NULL_REPLACEMENT);
-                $templateData['img_src'] = $this->_Util->strGetImgPathNoRestaurant($templateData['description'],DatabaseConfig::$IMG_DIR.'/'.DatabaseConfig::$USDA_NON_BRANDED_IMGS);
                 $boolFirstLoop = FALSE;
             }
 

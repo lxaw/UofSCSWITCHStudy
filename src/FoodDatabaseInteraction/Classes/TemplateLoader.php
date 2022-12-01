@@ -2,6 +2,7 @@
 
 namespace App\FoodDatabaseInteraction\Classes;
 use App\FoodDatabaseInteraction\Configs\DatabaseConfig;
+use App\FoodDatabaseInteraction\Classes\Util;
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -9,13 +10,18 @@ error_reporting(E_ALL);
 
 
 // see:
-// https://stackoverflow.com/questions/2905696/method-for-creating-php-templates-ie-html-with-variables
+// https://stackoverflow.com/questions/2905696/method-for-creating-php-templates/pie_charts-ie-html-with-variables
 
 // loads data into html and
 // returns strings for js
 //
 
 class TemplateLoader{
+
+    function __construct($rootDir = NULL){
+        $this->ROOT_DIR = $rootDir;
+        $this->_Util = new Util();
+    }
     
     // Populates HTML template with data from array (dictionary)
     // Input: $arrData (array of str), $strFilePath (str)
@@ -61,8 +67,7 @@ class TemplateLoader{
 
         // load the modal html
         //
-        $strModalHtml = file_get_contents("../../templates/usda_non_branded/popup_v1.html");
-
+        $strModalHtml = file_get_contents($this->ROOT_DIR."/templates/pie_charts/usda_non_branded/popup_v1.html");
 
         // first create the select
         //
@@ -106,15 +111,15 @@ class TemplateLoader{
                     // first modal data is always visible, the rest will be invisible
                     // until change the select for the serving size
                     //
-                    $modalData = file_get_contents('../../templates/usda_non_branded/popup_visible.html');
+                    $modalData = file_get_contents($this->ROOT_DIR.'/templates/pie_charts/usda_non_branded/popup_visible.html');
                 }else{
                     // change to invisible
-                    $modalData = file_get_contents('../../templates/usda_non_branded/popup_invisible.html');
+                    $modalData = file_get_contents($this->ROOT_DIR.'/templates/pie_charts/usda_non_branded/popup_invisible.html');
                 };
 
                 // get the template for the data
                 //
-                $templateData = file_get_contents('../../templates/usda_non_branded/popup_data.html');
+                $templateData = file_get_contents($this->ROOT_DIR.'/templates/pie_charts/usda_non_branded/popup_data.html');
                 
                 // populate modal
                 //
@@ -197,7 +202,7 @@ class TemplateLoader{
         //)
         // load modal html
         //
-        $strModalHtml = file_get_contents('../../templates/menustat/popup_v1.html');
+        $strModalHtml = file_get_contents($this->ROOT_DIR.'/templates/pie_charts/menustat/popup_v1.html');
 
         // create the select
         //
@@ -240,15 +245,15 @@ class TemplateLoader{
                     // first modal data is always visible, the rest will be invisible
                     // until change the select for the serving size
                     //
-                    $modalData = file_get_contents('../../templates/menustat/popup_visible.html');
+                    $modalData = file_get_contents($this->ROOT_DIR.'/templates/pie_charts/menustat/popup_visible.html');
                 }else{
                     // change to invisible
-                    $modalData = file_get_contents('../../templates/menustat/popup_invisible.html');
+                    $modalData = file_get_contents($this->ROOT_DIR.'/templates/pie_charts/menustat/popup_invisible.html');
                 };
 
                 // get the template for the data
                 //
-                $templateData = file_get_contents('../../templates/menustat/popup_data.html');
+                $templateData = file_get_contents($this->ROOT_DIR.'/templates/pie_charts/menustat/popup_data.html');
                 
                 // populate modal
                 //
@@ -280,6 +285,7 @@ class TemplateLoader{
                 // give restaurant
                 $modalData = str_replace('[restaurant]',$arrMenustatData['restaurant'],$modalData);
 
+
                 // append to modals
                 //
                 $strModalDatas .= $modalData;
@@ -300,9 +306,11 @@ class TemplateLoader{
         // put the description in
         //
         $strModalHtml = str_replace('[description]',$arrMenustatData['description'],$strModalHtml);
-        // put the img in
-        //
-        $strModalHtml = str_replace('[img_src]',$arrMenustatData['img_src'],$strModalHtml);
+
+        // put img in
+        // give img
+        $imgSrc = $this->_Util->strGetImgPath($arrMenustatData['description'],$arrMenustatData['restaurant'],DatabaseConfig::$IMG_DIR.'/'.DatabaseConfig::$MENUSTAT_IMGS);
+        $strModalHtml = str_replace('[img_src]',$imgSrc,$strModalHtml);
 
         // put the modal data in
         //
@@ -332,7 +340,7 @@ class TemplateLoader{
 
         // load the modal html
         //
-        $strModalHtml = file_get_contents("../../templates/usda_branded/popup_v1.html");
+        $strModalHtml = file_get_contents($this->ROOT_DIR."/templates/pie_charts/usda_branded/popup_v1.html");
 
 
         // first create the select
@@ -377,15 +385,15 @@ class TemplateLoader{
                     // first modal data is always visible, the rest will be invisible
                     // until change the select for the serving size
                     //
-                    $modalData = file_get_contents('../../templates/usda_branded/popup_visible.html');
+                    $modalData = file_get_contents($this->ROOT_DIR.'/templates/pie_charts/usda_branded/popup_visible.html');
                 }else{
                     // change to invisible
-                    $modalData = file_get_contents('../../templates/usda_branded/popup_invisible.html');
+                    $modalData = file_get_contents($this->ROOT_DIR.'/templates/pie_charts/usda_branded/popup_invisible.html');
                 };
 
                 // get the template for the data
                 //
-                $templateData = file_get_contents('../../templates/usda_branded/popup_data.html');
+                $templateData = file_get_contents($this->ROOT_DIR.'/templates/pie_charts/usda_branded/popup_data.html');
                 
                 // populate modal
                 //
@@ -465,7 +473,7 @@ class TemplateLoader{
     function strSelectToStr($arrData){
         // load the template for choices
         //
-        $strOriginalOptionTemplate = file_get_contents("../../templates/general/option.html");
+        $strOriginalOptionTemplate = file_get_contents($this->ROOT_DIR."/templates/pie_charts/general/option.html");
 
         // create the basic select
         // finish it when all options added

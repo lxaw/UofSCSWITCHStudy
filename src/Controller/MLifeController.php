@@ -91,17 +91,22 @@ class MLifeController extends AbstractController
     public function queryData(Request $request): Response
     {
         $dbSearcher = new DBSearcher();
-        $templateLoader = new TemplateLoader();
+        $templateLoader = new TemplateLoader($this->getParameter('kernel.project_dir'));
 
         $strDbType = $request->get("strDbType");
         $strId = $request->get("strId");
 
         // return str
-        $arrTemplateData = array();
+        $arrRet = array();
 
         switch($strDbType){
             case "menustat":
                 $arrTemplateData = $dbSearcher->arrQueryMenustatDetail($strId);
+                $strModal = $templateLoader->strPopulateMenustatModal($arrTemplateData);
+                $arrRet = array(
+                    "data_type"=>$arrTemplateData['data_type'],
+                    'modal'=>$strModal
+                );
                 break;
             case "usda_branded":
                 break;
@@ -111,6 +116,6 @@ class MLifeController extends AbstractController
                 break;
         }
 
-        return new JsonResponse($arrTemplateData);
+        return new JsonResponse($arrRet);
     }
 }
