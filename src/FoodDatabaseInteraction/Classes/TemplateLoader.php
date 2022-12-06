@@ -307,6 +307,10 @@ class TemplateLoader{
         //
         $strModalHtml = str_replace('[description]',$arrMenustatData['description'],$strModalHtml);
 
+        // put the id in 
+        //
+        $strModalHtml  = str_replace('[id]',$arrMenustatData['id'],$strModalHtml);
+
         // put img in
         // give img
         $imgSrc = $this->_Util->strGetImgPath($arrMenustatData['description'],$arrMenustatData['restaurant'],DatabaseConfig::$IMG_DIR.'/'.DatabaseConfig::$MENUSTAT_IMGS);

@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\NutrientFormType;
 use Symfony\Component\HttpFoundation\Request;
+use App\Entity\Food;
 
 // see: https://stackoverflow.com/questions/38317137/symfony2-how-to-call-php-function-from-controller
 use App\FoodDatabaseInteraction\Classes\DBSearcher;
@@ -117,5 +118,42 @@ class MLifeController extends AbstractController
         }
 
         return new JsonResponse($arrRet);
+    }
+
+    #[Route('ajax/submitFoods',methods:["POST"],name:"submitFoods")]
+    public function submitFoods(Request $request): Response
+    {
+        $strId = $request->get("strId");
+        $strDataType = $request->get("strDataType");
+        $strQty = $request->get("strQty");
+
+        // get food data
+        //
+        $dbSearcher = new DBSearcher();
+        switch($strDataType){
+            case "menustat":
+                // TO DO:
+                // NEED TO PASS SOME SERVING SIZE INTO THIS FUNCTION
+                // ELSE YOU CANNOT KNOW HOW LARGE THE SERVING SIZE IS
+                $arrData = $dbSearcher->arrQueryMenustatDetail($strId);
+                $food = new Food();
+
+                $food->setFoodName($arrData['description']);
+                $food->setRestaurant($arrData['restaurant']);
+                $food->setUser($this->getUser());
+
+                $this->em->persist($food);
+                $this->em->flush();
+
+                break;
+            case "usda_branded":
+                break;
+            case "usda_non_branded":
+                break;
+            default:
+                break;
+        }
+
+        return new JsonResponse("HERE");
     }
 }
