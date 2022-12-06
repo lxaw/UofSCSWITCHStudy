@@ -10,7 +10,7 @@ class DatabaseConfig
     public static $DB_NAME = "food_db";
     public static $DB_USER = "root";
     public static $DB_PASSWORD = "password";
-    public static $IMG_DIR = "FoodDatabaseImages";
+    public static $IMG_DIR = "/images/FoodDatabaseImages";
     public static $MENUSTAT_IMGS = "menustat";
     public static $USDA_BRANDED_IMGS = "usda_branded";
     public static $USDA_NON_BRANDED_IMGS= "usda_non_branded";
@@ -24,4 +24,7 @@ class DatabaseConfig
     // number of entries per page
     //
     public static $ENTRIES_PER_PAGE = 20;
+
+    // name of image directory
+    //
 }

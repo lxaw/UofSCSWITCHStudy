@@ -198,8 +198,21 @@
                 </div>
             </div>
         </div>
-        </div>
-    </div> 
+    </div>
+
+{# for hidden menustat entry #}
+{% include './pie_charts/menustat/saved_entry.html.twig' %}
+
+{# for hidden usda_branded entry #}
+{% include './pie_charts/usda_branded/saved_entry.html.twig' %}
+
+{# for hidden usda_non_branded entry #}
+{% include './pie_charts/usda_non_branded/saved_entry.html.twig' %}
+
+<div id = "div__modal-holder">
+
+</div>
+
 
 {% endblock body %}
 
@@ -207,7 +220,7 @@
 <!-- chart.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- nutrient pie chart wrapper -->
-<script type="text/javascript" src="./js/NutrientPieChart.js"></script>
+<script type="text/javascript" src="{{asset('js/NutrientPieChart.js')}}"></script>
 <!-- debounce function -->
 <script type = "text/javascript" src = "{{asset('js/debounce.js')}}"></script>
 
@@ -508,17 +521,17 @@
         // consider the type of data
         // ie: menustat, usda_branded, usda_non_branded
         //
-        var strDBType = $("#select__db-options").val();
+        var strDbType = $("#select__db-options").val();
         // get id
         //
         var strId = $(trE).attr('data-id');
 
         $.ajax({
-            url: "php/funcs/query_info.php",
+            url: "/ajax/queryData/",
             type:'GET',
-            dataType:'html',
+            dataType:'text',
             data:{
-                strDBType:strDBType,
+                strDbType:strDbType,
                 strId:strId,
             },
             success:function(data){
@@ -529,7 +542,6 @@
                 //
 
                 // sanity check
-                // console.log(data)
                 let arrData = JSON.parse(data);
 
                 // datatype
@@ -539,7 +551,6 @@
                 // templates are just html
                 //
                 let strModal = arrData['modal'];
-
                 // remove old results
                 $('#div__modal-holder').html('');
                 // add new results
@@ -571,7 +582,7 @@
                 // add a save feature
                 //
                 $('#simpleModal').find('.btn__add-to-saved').first().click(()=>{
-                    addToSavedClick(strDBType,$('#simpleModal'),trE);
+                    addToSavedClick(strDbType,$('#simpleModal'),trE);
                 })
                 
             }
@@ -613,8 +624,6 @@
         //
         var strDBType = $("#select__db-options").val();
 
-        console.log('querying db: ' + strDBType + ' for ' + strFoodQuery);
-
         $.when(ajaxGetFoodSearchResults(strFoodQuery,strDBType,0)).done(
             function(arrFoods, textStatus, jqXHR){
                 $('#div__results-container').html(arrFoods);
@@ -630,7 +639,6 @@
     // this function is used to query regular entries and 
     // also when scrolling
     function ajaxGetFoodSearchResults(strFoodName,strDBType,intOffset){
-        console.log('querying: '+ strDBType + ' for ' + strFoodName);
 
         return $.ajax({
             url:'/ajax/queryNames',
@@ -647,9 +655,9 @@
                 return data;
             }
         }).done((response)=>{
-            console.log(response)
+            // console.log(response)
         }).fail((response)=>{
-            console.log(response)
+            // console.log(response)
         })
     }
 
@@ -677,7 +685,6 @@
                 var intNewOffset= parseInt($('#span__hidden-offset').text()) + 20;
                 // need to update the offset
                 $('#span__hidden-offset').text(intNewOffset);
-                // console.log('old offset: '$(''))
                 $.when(ajaxGetFoodSearchResults(strFoodName,strDBType,intNewOffset)).done(
                     function(arrFoods, textStatus, jqXHR){
                         // append data
