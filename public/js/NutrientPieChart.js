@@ -4,7 +4,6 @@
 This class represents a NutrientPieChart.
 It is a wrapper over a Chart.js Pie (Doughnut) object.
 */
-
 class NutrientPieChart{
     constructor(arrLabels,arrData,strChartId,intNutrientLimit,strColorProgress,strColorNonProgress,strColorOver,boolIsGoUp){
         this.arrLabels = arrLabels;
@@ -68,19 +67,19 @@ class NutrientPieChart{
         });
     }
     setNonProgressColor(strColor){
-        this.chart.chart.data.datasets[0].backgroundColor[0] = strColor;
+        this.chart.data.datasets[0].backgroundColor[0] = strColor;
     }
     getNonProgressColor(){
-        return this.chart.chart.data.datasets[0].backgroundColor[0];
+        return this.chart.data.datasets[0].backgroundColor[0];
     }
     setProgressColor(strColor){
-        this.chart.chart.data.datasets[0].backgroundColor[1] = strColor;
+        this.chart.data.datasets[0].backgroundColor[1] = strColor;
     }
     getProgressColor(){
-        return this.chart.chart.data.datasets[0].backgroundColor[1];
+        return this.chart.data.datasets[0].backgroundColor[1];
     }
     setBorderThickness(intBorder){
-        this.chart.chart.data.datasets[0].borderWidth = intBorder;
+        this.chart.data.datasets[0].borderWidth = intBorder;
     }
     setIsOverLimit(bool){
         this.boolOverLimit = bool;
@@ -114,9 +113,9 @@ class NutrientPieChart{
     updateText(){
         var self = this;
         this.chart.config.plugins[0].beforeDraw = function(chart,options){
-            var w = chart.chart.width;
-            var h = chart.chart.height;
-            var ctx = chart.chart.ctx;
+            var w = self.chart.width;
+            var h = self.chart.height;
+            var ctx =self.chart.ctx;
             var fontSize = h / 112;
             ctx.font = fontSize + 'em sans-serif';
             ctx.textBaseline = 'middle';

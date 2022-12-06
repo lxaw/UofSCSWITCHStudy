@@ -220,7 +220,7 @@
 <!-- chart.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- nutrient pie chart wrapper -->
-<script type="text/javascript" src="./js/NutrientPieChart.js"></script>
+<script type="text/javascript" src="{{asset('js/NutrientPieChart.js')}}"></script>
 <!-- debounce function -->
 <script type = "text/javascript" src = "{{asset('js/debounce.js')}}"></script>
 
@@ -542,7 +542,6 @@
                 //
 
                 // sanity check
-                console.log(data);
                 let arrData = JSON.parse(data);
 
                 // datatype
@@ -588,10 +587,8 @@
                 
             }
         }).done(function(response){
-            console.log(response);
             console.log('success');
         }).fail(function(response){
-            console.log(response);
             console.log('fail');
         })
     }
@@ -688,7 +685,6 @@
                 var intNewOffset= parseInt($('#span__hidden-offset').text()) + 20;
                 // need to update the offset
                 $('#span__hidden-offset').text(intNewOffset);
-                // console.log('old offset: '$(''))
                 $.when(ajaxGetFoodSearchResults(strFoodName,strDBType,intNewOffset)).done(
                     function(arrFoods, textStatus, jqXHR){
                         // append data
