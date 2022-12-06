@@ -55,6 +55,15 @@ class Food
     #[ORM\ManyToOne(inversedBy: 'food', cascade: ['persist'])]
     private ?User $User = null;
 
+    #[ORM\Column(nullable:true)]
+    private ?int $Quantity = null;
+
+    #[ORM\Column(length: 255,nullable:true)]
+    private ?string $DataType = null;
+
+    #[ORM\Column(nullable:true)]
+    private ?int $DataId = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -224,6 +233,42 @@ class Food
     public function setUser(?User $User): self
     {
         $this->User = $User;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?int
+    {
+        return $this->Quantity;
+    }
+
+    public function setQuantity(int $Quantity): self
+    {
+        $this->Quantity = $Quantity;
+
+        return $this;
+    }
+
+    public function getDataType(): ?string
+    {
+        return $this->DataType;
+    }
+
+    public function setDataType(string $DataType): self
+    {
+        $this->DataType = $DataType;
+
+        return $this;
+    }
+
+    public function getDataId(): ?int
+    {
+        return $this->DataId;
+    }
+
+    public function setDataId(int $DataId): self
+    {
+        $this->DataId = $DataId;
 
         return $this;
     }

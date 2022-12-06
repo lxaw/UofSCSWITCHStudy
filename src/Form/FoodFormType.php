@@ -108,6 +108,27 @@ class FoodFormType extends AbstractType
                 ),
                 'required' => true
             ])
+            ->add('Quantity',TextType::class,[
+                'attr'=> array(
+                    'class'=>'form-control',
+                    'type'=>'number'
+                ),
+                'required' => true
+            ])
+            ->add('DataType',TextType::class,[
+                'attr'=> array(
+                    'class'=>'form-control',
+                    'type'=>'text'
+                ),
+                'required' => true
+            ])
+            ->add('DataId',TextType::class,[
+                'attr'=> array(
+                    'class'=>'form-control',
+                    'type'=>'number'
+                ),
+                'required' => true
+            ])
             // ->add('User')
         ;
     }

@@ -39,7 +39,8 @@ class NutrientPieChart{
                     hoverBorderWidth:0,
                 }]
             },
-            plugins: [{
+            plugins: [
+                {
                 beforeDraw: function(chart){
                     var w = chart.width;
                     var h = chart.height;
@@ -57,8 +58,9 @@ class NutrientPieChart{
 
                     ctx.fillText(text,textX,textY);
                     ctx.save();
-                }
-            }],
+                },
+            },
+        ],
             options:{
                 legend:{
                     display:false,

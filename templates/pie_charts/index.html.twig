@@ -76,127 +76,27 @@
         </div>
         <br>
         <div>
-            <div class = 'd-flex justify-content-between'>
-                <div>
-                    <h4>
-                        Stored Foods
-                    </h4>
+            <form action="">
+                <div class = 'd-flex justify-content-between'>
+                    <div>
+                        <h4>
+                            Stored Foods
+                        </h4>
+                    </div>
                 </div>
-            </div>
-            <div id = "div__saved-food-container"
-            style="overflow-y:scroll;max-height:15rem;height:15rem;"
-            >
-
-            </div>
+                <div id = "div__saved-food-container" style="overflow-y:scroll;max-height:15rem;height:15rem;"></div>
+                <button class = "btn btn-sm btn-outline-success" onclick="submitFoods(event)">
+                    Submit foods?
+                </button>
+            </form>
+            <hr>
             <span id = 'span__hidden-offset' style='display:none'>
                 0
             </span>
         </div>
         <div id = 'div__chart-holder'>
-        <div id = "div__graph-container">
-            <div class = 'row'>
-                <div class= 'col-6'>
-                    <div class = 'div__graph-section text-center
-                    p-3 border rounded
-                    ' data-name ='fat' data-limit='1200'
-                    >
-                        <div class = 'div__chart-holder'>
-                            <canvas class = 'canvas__chart' id = "canvas__fat-totals"></canvas>
-                            <h2 class = 'text__graph-title'>
-                                Fat
-                            </h2>
-                            <smalL>
-                                Limit: 1200
-                            </small>
-                            <br>
-                            <small>
-                                Used: 
-                                <span id = "span__total-fat" class ='text-success'>
-                                    0
-                                </span>
-                            </small>
-                        </div>
-                        <br>
-                    </div>
-                </div>
-                <div class= 'col-6'>
-                    <div class = 'div__graph-section text-center
-                    p-3 border rounded
-                    ' data-name = "calorie" data-limit ='2300'
-                    >
-                        <div class = 'div__chart-holder'>
-                            <canvas class = 'canvas__chart'
-                            id = "canvas__calorie-totals"></canvas>
-                            <h2 class = 'text__graph-title'>
-                                Calories
-                            </h2>
-                            <smalL>
-                                Limit: 2300
-                            </small>
-                            <br>
-                            <small>
-                                Used: 
-                                <span id = "span__total-calorie" class ='text-success'>
-                                    0
-                                </span>
-                            </small>
-                        </div>
-                        <br>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <div class = 'row'>
-                <div class= 'col-6'>
-                    <div class = 'div__graph-section text-center
-                    p-3 border rounded
-                    ' data-name ='potassium' data-limit='1800'
-                    >
-                        <div class = 'div__chart-holder'>
-                            <canvas class = 'canvas__chart' id = "canvas__potassium-totals"></canvas>
-                            <h2 class = 'text__graph-title'>
-                                Potassium
-                            </h2>
-                            <smalL>
-                                Limit: 1800
-                            </small>
-                            <br>
-                            <small>
-                                Used: 
-                                <span id = "span__total-potassium" class ='text-success'>
-                                    0 
-                                </span>
-                            </small>
-                        </div>
-                        <br>
-                    </div>
-                </div>
-                <div class= 'col-6'>
-                    <div class = 'div__graph-section text-center
-                    p-3 border rounded
-                    ' data-name = "fiber" data-limit ='1500'
-                    >
-                        <div class = 'div__chart-holder'>
-                            <canvas class = 'canvas__chart'
-                            id = "canvas__fiber-totals"></canvas>
-                            <h2 class = 'text__graph-title'>
-                                Fiber
-                            </h2>
-                            <smalL>
-                                Limit: 1500
-                            </small>
-                            <br>
-                            <small>
-                                Used: 
-                                <span id = "span__total-fiber" class ='text-success'>
-                                    0 
-                                </span>
-                            </small>
-                        </div>
-                        <br>
-                    </div>
-                </div>
-            </div>
+            {# food charts #}
+            {% include './pie_charts/general/pie_charts.html.twig' %}
         </div>
     </div>
 
@@ -209,6 +109,8 @@
 {# for hidden usda_non_branded entry #}
 {% include './pie_charts/usda_non_branded/saved_entry.html.twig' %}
 
+
+{# To hold the modal #}
 <div id = "div__modal-holder">
 
 </div>
@@ -284,7 +186,7 @@
 
 
     // add to saved button //
-    function addToSavedClick(strDataType,modalModal,trE){
+    function addToSavedClick(strDataType,foodDbId,modalModal,trE){
         // disable to table row
         $(trE).css('background-color','silver');
         // remove the onclick
@@ -353,6 +255,9 @@
         }
         // remove id
         divSavedEntry.attr('id','')
+        // add saved data tag
+        divSavedEntry.addClass('div__saved-entry');
+        divSavedEntry.attr('dbId',foodDbId);
         // put in all the relevant data
         // ie macronutrients, description, etc
         divSavedEntry.find('.span__calorie-amount').first().text(intAddKcals);
@@ -544,9 +449,6 @@
                 // sanity check
                 let arrData = JSON.parse(data);
 
-                // datatype
-                //
-                let strDataType = arrData['data_type'];
                 // array of template entries
                 // templates are just html
                 //
@@ -582,7 +484,7 @@
                 // add a save feature
                 //
                 $('#simpleModal').find('.btn__add-to-saved').first().click(()=>{
-                    addToSavedClick(strDbType,$('#simpleModal'),trE);
+                    addToSavedClick(strDbType,strId,$('#simpleModal'),trE);
                 })
                 
             }
@@ -729,6 +631,39 @@
     $("#input__per-page").change(()=>{
         voidQueryNamesInitial();
     })
+
+    // submit foods
+    //
+    function submitFoods(e){
+        e.preventDefault();
+
+        // get the ids and amounts of each saved food
+        //
+        foodDict = {};
+        $(".div__saved-entry").each((index,element)=>{
+            strId = $(element).attr('dbId');
+            strDataType = $(element).attr('data-type');
+            strQty = $(element).find('.input__saved-entry-qty').val();
+
+            $.ajax({
+                url:'/ajax/submitFoods',
+                type:'POST',
+                dataType:'JSON',
+                data:{
+                    strDataType: strDataType,
+                    strId: strId,
+                    strQty: strQty
+                },
+                success:function(data){
+                    console.log(data);
+                }
+            }).done(function(response){
+                console.log(response);
+            }).fail(function(response){
+                console.log(response);
+            })
+        })
+    }
 
 </script>
 {% endblock javascript %}
