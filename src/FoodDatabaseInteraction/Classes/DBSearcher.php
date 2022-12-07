@@ -294,10 +294,6 @@ class DBSearcher{
         $result = $stmt->get_result();
         $data = $result->fetch_all(MYSQLI_ASSOC);
 
-        $templateData = array(
-            'fdc_id'=>$strFdcId,
-        );
-
         // Note! 
         // There may be multiple entries for each serving size
         // thus we have an array of template data here
@@ -306,13 +302,11 @@ class DBSearcher{
             // return the datatype to js
             'data_type'=>DatabaseConfig::$DATA_TYPE_USDA_BRANDED,
             'fdc_id'=>$strFdcId,
+            'id'=>$this->_Util->strReplaceIfNull($data[0]['id'],DatabaseConfig::$NULL_REPLACEMENT),
+            'description' => $this->_Util->strReplaceIfNull($data[0]['description'],DatabaseConfig::$NULL_REPLACEMENT),
+            'brand_owner' => $this->_Util->strReplaceIfNull($data[0]['brand_owner'],DatabaseConfig::$NULL_REPLACEMENT),
+            'img_src' => $this->_Util->strGetImgPath($data[0]['description'],$data[0]['brand_owner'],DatabaseConfig::$IMG_DIR.'/'.DatabaseConfig::$USDA_BRANDED_IMGS),
         );
-        // get the first element so that we get basic info on the food
-        // this info is present in each element
-        //
-        $templateData['description'] = $this->_Util->strReplaceIfNull($data[0]['description'],DatabaseConfig::$NULL_REPLACEMENT);
-        $templateData['brand_owner'] = $this->_Util->strReplaceIfNull($data[0]['brand_owner'],DatabaseConfig::$NULL_REPLACEMENT);
-        $templateData['img_src'] = $this->_Util->strGetImgPath($data[0]['description'],$data[0]['brand_owner'],DatabaseConfig::$IMG_DIR.'/'.DatabaseConfig::$USDA_BRANDED_IMGS);
 
         foreach($data as $tableEntry){
             // likely have multiple table entries
@@ -375,6 +369,7 @@ class DBSearcher{
             // return the datatype to js
             'data_type'=>DatabaseConfig::$DATA_TYPE_USDA_NON_BRANDED,
             'fdc_id'=>$strFdcId,
+            'id'=>$this->_Util->strReplaceIfNull($data[0]['id'],DatabaseConfig::$NULL_REPLACEMENT),
             'description'=>$this->_Util->strReplaceIfNull($data[0]['description'],DatabaseConfig::$NULL_REPLACEMENT),
             'img_src'=>$this->_Util->strGetImgPathNoRestaurant($data[0]['description'],DatabaseConfig::$IMG_DIR.'/'.DatabaseConfig::$USDA_NON_BRANDED_IMGS),
         );

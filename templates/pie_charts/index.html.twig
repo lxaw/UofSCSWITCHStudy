@@ -186,7 +186,7 @@
 
 
     // add to saved button //
-    function addToSavedClick(strDataType,foodDbId,modalModal,trE){
+    function addToSavedClick(modalModal,trE){
         // disable to table row
         $(trE).css('background-color','silver');
         // remove the onclick
@@ -194,12 +194,18 @@
         // now hide the model
         $(modalModal).modal('hide');
 
+        // get db id
+        //
+        let strDbId = $(modalModal).attr('dbId');
+
         // depending on data type, change how saved info looks
         //
         // get name of food 
         let strFoodName = $(modalModal).find('.span__description').first().text();
         // get img src
         let strImgSrc = $(modalModal).find('.img__food-img').first().attr('src');
+        // get datatype
+        let strDataType = $(modalModal).attr('data-type');
 
         // for saved entry
         let divSavedEntry = null;
@@ -257,7 +263,7 @@
         divSavedEntry.attr('id','')
         // add saved data tag
         divSavedEntry.addClass('div__saved-entry');
-        divSavedEntry.attr('dbId',foodDbId);
+        divSavedEntry.attr('dbId',strDbId);
         // put in all the relevant data
         // ie macronutrients, description, etc
         divSavedEntry.find('.span__calorie-amount').first().text(intAddKcals);
@@ -446,13 +452,13 @@
                 // 'templates': ARRAY}
                 //
 
-                // sanity check
                 let arrData = JSON.parse(data);
 
                 // array of template entries
                 // templates are just html
                 //
                 let strModal = arrData['modal'];
+
                 // remove old results
                 $('#div__modal-holder').html('');
                 // add new results
@@ -462,6 +468,7 @@
                 $('#simpleModal').modal('toggle');
                 // fix modal not closing
                 $('#simpleModal').find('button').click(()=>{$('#simpleModal').modal('toggle')})
+
 
                 // add on select change feature
                 //
@@ -484,7 +491,7 @@
                 // add a save feature
                 //
                 $('#simpleModal').find('.btn__add-to-saved').first().click(()=>{
-                    addToSavedClick(strDbType,strId,$('#simpleModal'),trE);
+                    addToSavedClick($('#simpleModal'),trE);
                 })
                 
             }

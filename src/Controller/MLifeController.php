@@ -11,7 +11,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\NutrientFormType;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Food;
+// food types
+use App\Entity\MenustatFood;
+use App\Entity\UsdaBrandedFood;
+use App\Entity\UsdaNonBrandedFood;
 
 // see: https://stackoverflow.com/questions/38317137/symfony2-how-to-call-php-function-from-controller
 use App\FoodDatabaseInteraction\Classes\DBSearcher;
@@ -128,7 +131,6 @@ class MLifeController extends AbstractController
             default:
                 break;
         }
-
         return new JsonResponse($arrRet);
     }
 
@@ -137,7 +139,8 @@ class MLifeController extends AbstractController
     {
         $strId = $request->get("strId");
         $strDataType = $request->get("strDataType");
-        $strQty = $request->get("strQty");
+        $floatQty =  (float) $request->get("strQty");
+        // need serving size
 
         // get food data
         //
@@ -148,16 +151,37 @@ class MLifeController extends AbstractController
                 // NEED TO PASS SOME SERVING SIZE INTO THIS FUNCTION
                 // ELSE YOU CANNOT KNOW HOW LARGE THE SERVING SIZE IS
                 $arrData = $dbSearcher->arrQueryMenustatDetail($strId);
-                $food = new Food();
+                $food = new MenustatFood();
+                // get fat, calories, potassium, fiber
+                $floatServingSize = (float) $arrData[0]['serving_size'];
+                $floatServingSizeUnit = $arrData[0]['serving_size_unit'];
+                $floatFatAmount = $floatQty * (float) $arrData[0]['fat_amount'];
+                $floatProteinAmount = $floatQty * (float) $arrData[0]['protein_amount'];
+                $floatEnergyAmount = $floatQty * (float) $arrData[0]['energy_amount'];
+                $floatPotassiumAmount = $floatQty * (float) $arrData[0]['potassium_amount'];
+                $floatCarbAmount = $floatQty * (float) $arrData[0]['carb_amount'];
+                $floatFiberAmount = $floatQty * (float) $arrData[0]['fiber_amount'];
+                $strRestaurant = $arrData['restaurant'];
 
-                $food->setFoodName($arrData['description']);
-                $food->setRestaurant($arrData['restaurant']);
+                // set attributes
                 $food->setUser($this->getUser());
+                $food->setServingSize((float) $floatServingSize);
+                $food->setServingSizeUnit($floatServingSizeUnit);
+                $food->setFatAmount((float) $floatFatAmount);
+                $food->setProteinAmount((float) $floatProteinAmount);
+                $food->setEnergyAmount((float) $floatEnergyAmount);
+                $food->setPotassiumAmount((float) $floatPotassiumAmount);
+                $food->setCarbAmount((float) $floatCarbAmount);
+                $food->setFiberAmount((float) $floatFiberAmount);
+                $food->setDate(new \DateTime());
+                $food->setMenustatId((int) $strId);
+                $food->setRestaurant($strRestaurant);
+                $food->setDescription($arrData['description']);
 
                 $this->em->persist($food);
                 $this->em->flush();
-
                 break;
+
             case "usda_branded":
                 break;
             case "usda_non_branded":
@@ -166,6 +190,6 @@ class MLifeController extends AbstractController
                 break;
         }
 
-        return new JsonResponse("HERE");
+        return new JsonResponse("done");
     }
 }

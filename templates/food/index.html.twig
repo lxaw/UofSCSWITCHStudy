@@ -16,10 +16,10 @@
             Your Entered Foods
         </h5>
         <div>
-            {% for food in foods %}
+            {% for food in menustatFoods %}
             <div class = 'border p-3 mb-3'>
-                <a href="/food/show/{{food.id}}">View</a>
-                <p>Food Name: {{food.FoodName}}</p>
+                <a href="/food/show/menustat/{{food.id}}">View</a>
+                <p>Food Name: {{food.Description}}</p>
                 <p>Food Id: {{food.id}}</p>
                 <a href="/food/delete/{{food.id}}">Delete?</a>
             </div>

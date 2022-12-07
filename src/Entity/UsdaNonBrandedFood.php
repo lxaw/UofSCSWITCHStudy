@@ -59,6 +59,9 @@ class UsdaNonBrandedFood
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $PotassiumUnit = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $Date = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -240,6 +243,18 @@ class UsdaNonBrandedFood
     public function setPotassiumUnit(?string $PotassiumUnit): self
     {
         $this->PotassiumUnit = $PotassiumUnit;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->Date;
+    }
+
+    public function setDate(?\DateTimeInterface $Date): self
+    {
+        $this->Date = $Date;
 
         return $this;
     }

@@ -176,6 +176,10 @@ class TemplateLoader{
         //
         $strModalHtml = str_replace('[img_src]',$arrUsdaNBData['img_src'],$strModalHtml);
 
+        // put db id in (not fdc id)
+        //
+        $strModalHtml = str_replace('[id]',$arrUsdaNBData['id'],$strModalHtml);
+
         // put the modal data in
         //
         $strModalHtml = str_replace('[popup_datas]',$strModalDatas,$strModalHtml);
@@ -459,6 +463,10 @@ class TemplateLoader{
         // put the img in
         //
         $strModalHtml = str_replace('[img_src]',$arrUsdaData['img_src'],$strModalHtml);
+
+        // put db id in (not fdc id)
+        //
+        $strModalHtml = str_replace('[id]',$arrUsdaData['id'],$strModalHtml);
 
         // put the modal data in
         //
