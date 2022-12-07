@@ -14,10 +14,13 @@ class MenustatFood
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::BIGINT)]
-    private ?string $MenustatId = null;
+    #[ORM\ManyToOne(inversedBy: 'menustatfood', cascade: ['persist'])]
+    private ?User $User = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::BIGINT)]
+    private ?int $MenustatId = null;
+
+    #[ORM\Column(length: 255,nullable:true)]
     private ?string $Restaurant = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -48,7 +51,7 @@ class MenustatFood
     private ?float $FatAmount = null;
 
     #[ORM\Column(nullable: true)]
-    private ?float $SaturatedFoatAmount = null;
+    private ?float $SaturatedFatAmount = null;
 
     #[ORM\Column(nullable: true)]
     private ?float $TransFatAmount = null;
@@ -73,6 +76,9 @@ class MenustatFood
 
     #[ORM\Column(nullable: true)]
     private ?float $FiberAmount = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTime $Date = null;
 
     public function getId(): ?int
     {
@@ -211,14 +217,14 @@ class MenustatFood
         return $this;
     }
 
-    public function getSaturatedFoatAmount(): ?float
+    public function getSaturatedFatAmount(): ?float
     {
-        return $this->SaturatedFoatAmount;
+        return $this->SaturatedFatAmount;
     }
 
-    public function setSaturatedFoatAmount(?float $SaturatedFoatAmount): self
+    public function setSaturatedFatAmount(?float $SaturatedFatAmount): self
     {
-        $this->SaturatedFoatAmount = $SaturatedFoatAmount;
+        $this->SaturatedFatAmount = $SaturatedFatAmount;
 
         return $this;
     }
@@ -315,6 +321,29 @@ class MenustatFood
     public function setFiberAmount(?float $FiberAmount): self
     {
         $this->FiberAmount = $FiberAmount;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTime
+    {
+        return $this->Date;
+    }
+
+    public function setDate(?\DateTime $Date): self
+    {
+        $this->Date = $Date;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+    public function setUser(?User $User): self
+    {
+        $this->User = $User;
 
         return $this;
     }

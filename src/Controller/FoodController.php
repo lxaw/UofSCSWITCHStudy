@@ -3,13 +3,18 @@
 namespace App\Controller;
 
 use Doctrine\ORM\EntityManagerInferface;
-use App\Repository\FoodRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Food;
-use App\Form\FoodFormType;
+// use App\Entity\Food;
+// use App\Form\FoodFormType;
+
+
+// foods
+use App\Entity\MenustatFood;
+use App\Repository\MenustatRepository;
+
 use Symfony\Component\HttpFoundation\Request;
 // use App\FoodDatabaseInteraction;
 
@@ -24,25 +29,29 @@ class FoodController extends AbstractController
     public function index(): Response
     {
 
-        $repository = $this->em->getRepository(Food::class);
+        $menustatFoodRepo = $this->em->getRepository(MenustatFood::class);
 
-        $foods = $repository->findAllByUser($this->getUser());
-
-        // WORKS
-        // $test = \App\FoodDatabaseInteraction\Test::test("hello");
-
+        $menustatFoods= $menustatFoodRepo->findBy(array('User' => $this->getUser()));
 
         return $this->render('food/index.html.twig', [
-            'foods' => $foods,
+            'menustatFoods' => $menustatFoods,
         ]);
     }
 
-    #[Route('/food/show/{id}', methods: ["GET"],name:'FoodController__getFoodById')]
-    public function show($id): Response
+    #[Route('/food/show/{strDataType}/{id}', methods: ["GET"],name:'FoodController__getFoodById')]
+    public function show($strDataType,$id): Response
     {
-        $repository = $this->em->getRepository(Food::class);
-
-        $food = $repository->find($id);
+        $food = NULL;
+        switch($strDataType){
+            case "menustat":
+                $menustatRepo = $this->em->getRepository(MenustatFood::class);
+                $food= $menustatRepo->find($id);
+                break;
+            case "usda_branded":
+                break;
+            case "usda_non-branded":
+                break;
+        }
 
         return $this->render('food/show.html.twig',[
             'food' => $food

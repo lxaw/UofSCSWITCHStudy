@@ -45,7 +45,7 @@ class UsdaBrandedFood
     private ?string $SugarUnit = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $FattyAcidTotalSaturatedAmount = null;
+    private ?float $FattyAcidTotalSaturatedAmount = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $FattyAcidTotalSaturatedUnit = null;
@@ -90,13 +90,13 @@ class UsdaBrandedFood
     private ?string $PotassiumUnit = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $IronAmount = null;
+    private ?float $IronAmount = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $IronUnit = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $CalciumAmount = null;
+    private ?float $CalciumAmount = null;
 
     #[ORM\Column(length: 255)]
     private ?string $CalciumUnit = null;
@@ -130,6 +130,9 @@ class UsdaBrandedFood
 
     #[ORM\Column(length: 255)]
     private ?string $ProteinUnit = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $Date = null;
 
     public function getId(): ?int
     {
@@ -256,12 +259,12 @@ class UsdaBrandedFood
         return $this;
     }
 
-    public function getFattyAcidTotalSaturatedAmount(): ?int
+    public function getFattyAcidTotalSaturatedAmount(): ?float
     {
         return $this->FattyAcidTotalSaturatedAmount;
     }
 
-    public function setFattyAcidTotalSaturatedAmount(?int $FattyAcidTotalSaturatedAmount): self
+    public function setFattyAcidTotalSaturatedAmount(?float $FattyAcidTotalSaturatedAmount): self
     {
         $this->FattyAcidTotalSaturatedAmount = $FattyAcidTotalSaturatedAmount;
 
@@ -600,6 +603,18 @@ class UsdaBrandedFood
     public function setProteinUnit(string $ProteinUnit): self
     {
         $this->ProteinUnit = $ProteinUnit;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->Date;
+    }
+
+    public function setDate(?\DateTimeInterface $Date): self
+    {
+        $this->Date = $Date;
 
         return $this;
     }
