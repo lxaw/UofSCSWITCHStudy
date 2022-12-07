@@ -219,6 +219,7 @@ class TemplateLoader{
         //
         $intCounter = 0;
 
+
         $arrSelectArgs = array();
         foreach($arrMenustatData as $subElement){
             if(gettype($subElement) == 'array'){
@@ -307,14 +308,14 @@ class TemplateLoader{
         //
         $strModalHtml = str_replace('[description]',$arrMenustatData['description'],$strModalHtml);
 
+        // put img in
+        //
+        $strModalHtml = str_replace('[img_src]',$arrMenustatData['img_src'],$strModalHtml);
+
         // put the id in 
         //
         $strModalHtml  = str_replace('[id]',$arrMenustatData['id'],$strModalHtml);
 
-        // put img in
-        // give img
-        $imgSrc = $this->_Util->strGetImgPath($arrMenustatData['description'],$arrMenustatData['restaurant'],DatabaseConfig::$IMG_DIR.'/'.DatabaseConfig::$MENUSTAT_IMGS);
-        $strModalHtml = str_replace('[img_src]',$imgSrc,$strModalHtml);
 
         // put the modal data in
         //

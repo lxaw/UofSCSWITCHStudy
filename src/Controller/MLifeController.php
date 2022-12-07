@@ -110,8 +110,20 @@ class MLifeController extends AbstractController
                 );
                 break;
             case "usda_branded":
+                $arrTemplateData = $dbSearcher->arrQueryUsdaBrandedDetail($strId);
+                $strModal = $templateLoader->strPopulateUsdaBrandedModal($arrTemplateData);
+                $arrRet = array(
+                    "data_type"=>$arrTemplateData['data_type'],
+                    'modal'=>$strModal
+                );
                 break;
             case "usda_non-branded":
+                $arrTemplateData = $dbSearcher->arrQueryUsdaNonBrandedDetail($strId);
+                $strModal = $templateLoader->strPopulateUsdaNonBrandedModal($arrTemplateData);
+                $arrRet = array(
+                    "data_type"=>$arrTemplateData['data_type'],
+                    'modal'=>$strModal
+                );
                 break;
             default:
                 break;
