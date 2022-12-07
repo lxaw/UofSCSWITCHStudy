@@ -55,6 +55,7 @@ class DBSearcher{
             'id'=>$strId,
             'description'=>$this->_Util->strReplaceIfNull($data[0]['description'],DatabaseConfig::$NULL_REPLACEMENT),
             'restaurant'=>$this->_Util->strReplaceIfNull($data[0]['restaurant'],DatabaseConfig::$NULL_REPLACEMENT),
+            'img_src' => $this->_Util->strGetImgPath($data[0]['description'],$data[0]['restaurant'],DatabaseConfig::$IMG_DIR.'/'.DatabaseConfig::$MENUSTAT_IMGS),
         );
         // populate the data that does change between entries
         //
@@ -306,16 +307,14 @@ class DBSearcher{
             'data_type'=>DatabaseConfig::$DATA_TYPE_USDA_BRANDED,
             'fdc_id'=>$strFdcId,
         );
-        $boolFirstLoop = TRUE;
-        foreach($data as $tableEntry){
-            // get the description (only need to get once)
-            //
-            if($boolFirstLoop){
-                $templateData['description'] = $this->_Util->strReplaceIfNull($tableEntry['description'],DatabaseConfig::$NULL_REPLACEMENT);
-                $templateData['brand_owner']=$this->_Util->strReplaceIfNull($tableEntry['brand_owner'],DatabaseConfig::$NULL_REPLACEMENT);
-                $boolFirstLoop = FALSE;
-            }
+        // get the first element so that we get basic info on the food
+        // this info is present in each element
+        //
+        $templateData['description'] = $this->_Util->strReplaceIfNull($data[0]['description'],DatabaseConfig::$NULL_REPLACEMENT);
+        $templateData['brand_owner'] = $this->_Util->strReplaceIfNull($data[0]['brand_owner'],DatabaseConfig::$NULL_REPLACEMENT);
+        $templateData['img_src'] = $this->_Util->strGetImgPath($data[0]['description'],$data[0]['brand_owner'],DatabaseConfig::$IMG_DIR.'/'.DatabaseConfig::$USDA_BRANDED_IMGS);
 
+        foreach($data as $tableEntry){
             // likely have multiple table entries
             //
             $arrSubEntry = array(
@@ -362,9 +361,7 @@ class DBSearcher{
             where
                 fdc_id = ? 
         ');
-        // TO DO:
-        // Dont know why bind_param is not working here.
-        //
+
         $stmt->bind_param("i",$strFdcId);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -378,15 +375,10 @@ class DBSearcher{
             // return the datatype to js
             'data_type'=>DatabaseConfig::$DATA_TYPE_USDA_NON_BRANDED,
             'fdc_id'=>$strFdcId,
+            'description'=>$this->_Util->strReplaceIfNull($data[0]['description'],DatabaseConfig::$NULL_REPLACEMENT),
+            'img_src'=>$this->_Util->strGetImgPathNoRestaurant($data[0]['description'],DatabaseConfig::$IMG_DIR.'/'.DatabaseConfig::$USDA_NON_BRANDED_IMGS),
         );
-        $boolFirstLoop = TRUE;
         foreach($data as $tableEntry){
-            // get the description (only need to get once)
-            //
-            if($boolFirstLoop){
-                $templateData['description'] = $this->_Util->strReplaceIfNull($tableEntry['description'],DatabaseConfig::$NULL_REPLACEMENT);
-                $boolFirstLoop = FALSE;
-            }
 
             // likely have multiple table entries
             //
