@@ -14,8 +14,14 @@ class UsdaBrandedFood
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\ManyToOne(inversedBy: 'usdabrandedfood',cascade:['persist'])]
+    private ?User $User = null;
+
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
     private ?string $FdcId = null;
+
+    #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    private ?string $DbId = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Description = null;
@@ -89,19 +95,19 @@ class UsdaBrandedFood
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $PotassiumUnit = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(nullable: true)]
     private ?float $IronAmount = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $IronUnit = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(nullable:true)]
     private ?float $CalciumAmount = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable:true)]
     private ?string $CalciumUnit = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(nullable:true)]
     private ?float $FiberAmount = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -110,10 +116,10 @@ class UsdaBrandedFood
     #[ORM\Column(nullable: true)]
     private ?float $EnergyAmount = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $EnergyUnit = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?float $CarbAmount = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -128,7 +134,7 @@ class UsdaBrandedFood
     #[ORM\Column(nullable: true)]
     private ?float $ProteinAmount = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $ProteinUnit = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
@@ -147,6 +153,18 @@ class UsdaBrandedFood
     public function setFdcId(?string $FdcId): self
     {
         $this->FdcId = $FdcId;
+
+        return $this;
+    }
+
+    public function getDbId(): ?string
+    {
+        return $this->DbId;
+    }
+
+    public function setDbId(?string $DbId): self
+    {
+        $this->DbId= $DbId;
 
         return $this;
     }
@@ -615,6 +633,16 @@ class UsdaBrandedFood
     public function setDate(?\DateTimeInterface $Date): self
     {
         $this->Date = $Date;
+
+        return $this;
+    }
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+    public function setUser(?User $User): self
+    {
+        $this->User = $User;
 
         return $this;
     }

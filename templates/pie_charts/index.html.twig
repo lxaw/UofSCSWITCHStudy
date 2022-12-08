@@ -653,6 +653,8 @@
             strDataType = $(element).attr('data-type');
             strQty = $(element).find('.input__saved-entry-qty').val();
 
+            console.log(strDataType);
+
             $.ajax({
                 url:'/ajax/submitFoods',
                 type:'POST',

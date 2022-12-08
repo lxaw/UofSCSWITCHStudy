@@ -337,6 +337,56 @@ class DBSearcher{
 
         return $templateData;
     }
+    /*
+    TO DO: 
+    name these functions better
+    */
+    function arrQueryUsdaBrandedSpecific($specificId){
+        $stmt = $this->_MySQLiConnection->mysqli()->prepare('
+            select
+                *
+            from
+                usda_branded_column
+            where
+                id = ?
+        ');
+        $stmt->bind_param("i",$specificId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+
+        // Note! 
+        // There may be multiple entries for each serving size
+        // thus we have an array of template data here
+        //
+        $templateData = array(
+            // return the datatype to js
+            'data_type'=>DatabaseConfig::$DATA_TYPE_USDA_BRANDED,
+            'fdc_id'=>$specificId,
+            'id'=>$this->_Util->strReplaceIfNull($data[0]['id'],DatabaseConfig::$NULL_REPLACEMENT),
+            'description' => $this->_Util->strReplaceIfNull($data[0]['description'],DatabaseConfig::$NULL_REPLACEMENT),
+            'brand_owner' => $this->_Util->strReplaceIfNull($data[0]['brand_owner'],DatabaseConfig::$NULL_REPLACEMENT),
+            'img_src' => $this->_Util->strGetImgPath($data[0]['description'],$data[0]['brand_owner'],DatabaseConfig::$IMG_DIR.'/'.DatabaseConfig::$USDA_BRANDED_IMGS),
+            'serving_size'=>$this->_Util->strReplaceIfNull($data[0]['serving_size'],DatabaseConfig::$NULL_REPLACEMENT),
+            'serving_size_unit'=>$this->_Util->strReplaceIfNull($data[0]['serving_size_unit'],DatabaseConfig::$NULL_REPLACEMENT),
+            'protein_amount'=>$this->_Util->strReplaceIfNull($data[0]['protein_amount'],DatabaseConfig::$NULL_REPLACEMENT),
+            'protein_unit'=>$this->_Util->strReplaceIfNull($data[0]['protein_unit'],DatabaseConfig::$NULL_REPLACEMENT),
+            'energy_amount'=>$this->_Util->strReplaceIfNull($data[0]['energy_amount'],DatabaseConfig::$NULL_REPLACEMENT),
+            'energy_unit'=>$this->_Util->strReplaceIfNull($data[0]['energy_unit'],DatabaseConfig::$NULL_REPLACEMENT),
+            'carb_amount'=>$this->_Util->strReplaceIfNull($data[0]['carb_amount'],DatabaseConfig::$NULL_REPLACEMENT),
+            'carb_unit'=>$this->_Util->strReplaceIfNull($data[0]['carb_unit'],DatabaseConfig::$NULL_REPLACEMENT),
+            'fat_amount'=>$this->_Util->strReplaceIfNull($data[0]['fat_amount'],DatabaseConfig::$NULL_REPLACEMENT),
+            'fat_unit'=>$this->_Util->strReplaceIfNull($data[0]['fat_unit'],DatabaseConfig::$NULL_REPLACEMENT),
+            'potassium_amount'=>$this->_Util->strReplaceIfNull($data[0]['potassium_amount'],DatabaseConfig::$NULL_REPLACEMENT),
+            'potassium_unit'=>$this->_Util->strReplaceIfNull($data[0]['potassium_unit'],DatabaseConfig::$NULL_REPLACEMENT),
+            'fiber_amount'=>$this->_Util->strReplaceIfNull($data[0]['fiber_amount'],DatabaseConfig::$NULL_REPLACEMENT),
+            'fiber_unit'=>$this->_Util->strReplaceIfNull($data[0]['fiber_unit'],DatabaseConfig::$NULL_REPLACEMENT),
+        );
+
+        $stmt->close();
+
+        return $templateData;
+    }
 
     // Queries the usda non branded db.
     // This function is designed to act when the user 
@@ -405,6 +455,55 @@ class DBSearcher{
 
         return $templateData;
 
+    }
+
+    /*
+    TO DO: 
+    name these functions better
+    */
+    function arrQueryUsdaNonBrandedSpecific($specificId){
+        $stmt = $this->_MySQLiConnection->mysqli()->prepare('
+            select
+                *
+            from
+                usda_non_branded_column
+            where
+                id = ?
+        ');
+        $stmt->bind_param("i",$specificId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+        // Note! 
+        // There may be multiple entries for each serving size
+        // thus we have an array of template data here
+        //
+        $templateData = array(
+            // return the datatype to js
+            'data_type'=>DatabaseConfig::$DATA_TYPE_USDA_BRANDED,
+            'fdc_id'=>$specificId,
+            'id'=>$this->_Util->strReplaceIfNull($data[0]['id'],DatabaseConfig::$NULL_REPLACEMENT),
+            'description' => $this->_Util->strReplaceIfNull($data[0]['description'],DatabaseConfig::$NULL_REPLACEMENT),
+            'img_src' => $this->_Util->strGetImgPathNoRestaurant($data[0]['description'],DatabaseConfig::$IMG_DIR.'/'.DatabaseConfig::$USDA_BRANDED_IMGS),
+            'serving_size'=>$this->_Util->strReplaceIfNull($data[0]['serving_size'],DatabaseConfig::$NULL_REPLACEMENT),
+            'serving_text'=>$this->_Util->strReplaceIfNull($data[0]['serving_text'],DatabaseConfig::$NULL_REPLACEMENT),
+            'protein_amount'=>$this->_Util->strReplaceIfNull($data[0]['protein_amount'],DatabaseConfig::$NULL_REPLACEMENT),
+            'protein_unit'=>$this->_Util->strReplaceIfNull($data[0]['protein_unit'],DatabaseConfig::$NULL_REPLACEMENT),
+            'energy_amount'=>$this->_Util->strReplaceIfNull($data[0]['energy_amount'],DatabaseConfig::$NULL_REPLACEMENT),
+            'energy_unit'=>$this->_Util->strReplaceIfNull($data[0]['energy_unit'],DatabaseConfig::$NULL_REPLACEMENT),
+            'carb_amount'=>$this->_Util->strReplaceIfNull($data[0]['carb_amount'],DatabaseConfig::$NULL_REPLACEMENT),
+            'carb_unit'=>$this->_Util->strReplaceIfNull($data[0]['carb_unit'],DatabaseConfig::$NULL_REPLACEMENT),
+            'fat_amount'=>$this->_Util->strReplaceIfNull($data[0]['fat_amount'],DatabaseConfig::$NULL_REPLACEMENT),
+            'fat_unit'=>$this->_Util->strReplaceIfNull($data[0]['fat_unit'],DatabaseConfig::$NULL_REPLACEMENT),
+            'potassium_amount'=>$this->_Util->strReplaceIfNull($data[0]['potassium_amount'],DatabaseConfig::$NULL_REPLACEMENT),
+            'potassium_unit'=>$this->_Util->strReplaceIfNull($data[0]['potassium_unit'],DatabaseConfig::$NULL_REPLACEMENT),
+            'fiber_amount'=>$this->_Util->strReplaceIfNull($data[0]['fiber_amount'],DatabaseConfig::$NULL_REPLACEMENT),
+            'fiber_unit'=>$this->_Util->strReplaceIfNull($data[0]['fiber_unit'],DatabaseConfig::$NULL_REPLACEMENT),
+        );
+
+        $stmt->close();
+
+        return $templateData;
     }
 
 }

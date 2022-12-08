@@ -178,7 +178,7 @@ class TemplateLoader{
 
         // put db id in (not fdc id)
         //
-        $strModalHtml = str_replace('[id]',$arrUsdaNBData['id'],$strModalHtml);
+        $strModalHtml = str_replace('[dbId]',$arrUsdaNBData['id'],$strModalHtml);
 
         // put the modal data in
         //
@@ -440,6 +440,7 @@ class TemplateLoader{
                 // give brand owner
                 $modalData = str_replace('[brand_owner]',$arrUsdaData['brand_owner'],$modalData);
 
+
                 // append to modals
                 //
                 $strModalDatas .= $modalData;
@@ -466,7 +467,7 @@ class TemplateLoader{
 
         // put db id in (not fdc id)
         //
-        $strModalHtml = str_replace('[id]',$arrUsdaData['id'],$strModalHtml);
+        $strModalHtml = str_replace('[dbId]',$arrUsdaData['id'],$strModalHtml);
 
         // put the modal data in
         //
