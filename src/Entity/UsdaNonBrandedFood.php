@@ -14,8 +14,14 @@ class UsdaNonBrandedFood
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\ManyToOne(inversedBy: 'usdabrandedfood',cascade:['persist'])]
+    private ?User $User = null;
+
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
     private ?string $FdcId = null;
+
+    #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    private ?string $DbId= null;
 
     #[ORM\Column(length: 255)]
     private ?string $Description = null;
@@ -37,6 +43,9 @@ class UsdaNonBrandedFood
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $FatUnit = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $FatAmount = null;
 
     #[ORM\Column(nullable: true)]
     private ?float $CarbAmount = null;
@@ -163,6 +172,18 @@ class UsdaNonBrandedFood
         return $this;
     }
 
+    public function getFatAmount(): ?string
+    {
+        return $this->FatAmount;
+    }
+
+    public function setFatAmount(?string $FatAmount): self
+    {
+        $this->FatAmount = $FatAmount;
+
+        return $this;
+    }
+
     public function getCarbAmount(): ?float
     {
         return $this->CarbAmount;
@@ -255,6 +276,28 @@ class UsdaNonBrandedFood
     public function setDate(?\DateTimeInterface $Date): self
     {
         $this->Date = $Date;
+
+        return $this;
+    }
+
+    public function getDbId(): ?string
+    {
+        return $this->DbId;
+    }
+
+    public function setDbId(?string $DbId): self
+    {
+        $this->DbId= $DbId;
+
+        return $this;
+    }
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+    public function setUser(?User $User): self
+    {
+        $this->User = $User;
 
         return $this;
     }
