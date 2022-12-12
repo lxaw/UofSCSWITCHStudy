@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Show Food
+{% endblock title %}
+
+{% block body %}
+
+<div>
+    <h1>
+    Food Name: {{food.Description}}
+    </h1>
+    <div >
+        <p>
+            Author: {{food.User.email}}
+        </p>
+        <p>
+            Brand Name: {{food.BrandName}}
+        </p>
+
+        <a href = "/food/edit/{{food.id}}">
+            Edit
+        </a>
+    </div>
+</div>
+
+{% endblock body %}

@@ -6,6 +6,10 @@ use App\Repository\MenustatFoodRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+// util
+use App\FoodDatabaseInteraction\Classes\Util;
+use App\FoodDatabaseInteraction\Configs\DatabaseConfig;
+
 #[ORM\Entity(repositoryClass: MenustatFoodRepository::class)]
 class MenustatFood
 {
@@ -79,6 +83,9 @@ class MenustatFood
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $Date = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $Quantity = null;
 
     public function getId(): ?int
     {
@@ -344,6 +351,21 @@ class MenustatFood
     public function setUser(?User $User): self
     {
         $this->User = $User;
+
+        return $this;
+    }
+    public function getImgPath(): string{
+        return Util::strGetImgPath($this->getDescription(),$this->getRestaurant(),DatabaseConfig::$IMG_DIR.'/'.DatabaseConfig::$MENUSTAT_IMGS);
+    }
+
+    public function getQuantity(): ?float
+    {
+        return $this->Quantity;
+    }
+
+    public function setQuantity(?float $Quantity): self
+    {
+        $this->Quantity = $Quantity;
 
         return $this;
     }

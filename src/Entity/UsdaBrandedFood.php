@@ -6,6 +6,10 @@ use App\Repository\UsdaBrandedFoodRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+// util
+use App\FoodDatabaseInteraction\Classes\Util;
+use App\FoodDatabaseInteraction\Configs\DatabaseConfig;
+
 #[ORM\Entity(repositoryClass: UsdaBrandedFoodRepository::class)]
 class UsdaBrandedFood
 {
@@ -139,6 +143,9 @@ class UsdaBrandedFood
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $Date = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $Quantity = null;
 
     public function getId(): ?int
     {
@@ -645,5 +652,20 @@ class UsdaBrandedFood
         $this->User = $User;
 
         return $this;
+    }
+
+    public function getQuantity(): ?float
+    {
+        return $this->Quantity;
+    }
+
+    public function setQuantity(?float $Quantity): self
+    {
+        $this->Quantity = $Quantity;
+
+        return $this;
+    }
+    public function getImgPath(): string{
+        return Util::strGetImgPath($this->getDescription(),$this->getBrandName(),DatabaseConfig::$IMG_DIR.'/'.DatabaseConfig::$USDA_BRANDED_IMGS);
     }
 }

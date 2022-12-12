@@ -59,7 +59,6 @@ class MLifeController extends AbstractController
 
         $rootDir = $this->getParameter('kernel.project_dir');
 
-
         $strOut = "";
 
         switch($strDBType){
@@ -140,6 +139,7 @@ class MLifeController extends AbstractController
         $strId = $request->get("strId");
         $strDataType = $request->get("strDataType");
         $floatQty =  (float) $request->get("strQty");
+
         // need serving size
 
         // get food data
@@ -149,31 +149,22 @@ class MLifeController extends AbstractController
             case "menustat":
                 $arrData = $dbSearcher->arrQueryMenustatDetail($strId);
                 $food = new MenustatFood();
-                // get fat, calories, potassium, fiber
-                $floatServingSize = (float) $arrData[0]['serving_size'];
-                $servingSizeUnit = $arrData[0]['serving_size_unit'];
-                $floatFatAmount = $floatQty * (float) $arrData[0]['fat_amount'];
-                $floatProteinAmount = $floatQty * (float) $arrData[0]['protein_amount'];
-                $floatEnergyAmount = $floatQty * (float) $arrData[0]['energy_amount'];
-                $floatPotassiumAmount = $floatQty * (float) $arrData[0]['potassium_amount'];
-                $floatCarbAmount = $floatQty * (float) $arrData[0]['carb_amount'];
-                $floatFiberAmount = $floatQty * (float) $arrData[0]['fiber_amount'];
-                $strRestaurant = $arrData['restaurant'];
 
                 // set attributes
                 $food->setUser($this->getUser());
-                $food->setServingSize((float) $floatServingSize);
-                $food->setServingSizeUnit($servingSizeUnit);
-                $food->setFatAmount((float) $floatFatAmount);
-                $food->setProteinAmount((float) $floatProteinAmount);
-                $food->setEnergyAmount((float) $floatEnergyAmount);
-                $food->setPotassiumAmount((float) $floatPotassiumAmount);
-                $food->setCarbAmount((float) $floatCarbAmount);
-                $food->setFiberAmount((float) $floatFiberAmount);
+                $food->setServingSize((float) $arrData[0]['serving_size']);
+                $food->setServingSizeUnit($arrData[0]['serving_size_unit']);
+                $food->setFatAmount((float) $arrData[0]['fat_amount']);
+                $food->setProteinAmount((float) $arrData[0]['protein_amount']);
+                $food->setEnergyAmount((float) $arrData[0]['energy_amount']);
+                $food->setPotassiumAmount((float) $arrData[0]['potassium_amount']);
+                $food->setCarbAmount((float) $arrData[0]['carb_amount']);
+                $food->setFiberAmount((float) $arrData[0]['fiber_amount']);
                 $food->setDate(new \DateTime());
                 $food->setMenustatId((int) $strId);
-                $food->setRestaurant($strRestaurant);
+                $food->setRestaurant($arrData['restaurant']);
                 $food->setDescription($arrData['description']);
+                $food->setQuantity($floatQty);
 
                 $this->em->persist($food);
                 $this->em->flush();
@@ -182,31 +173,22 @@ class MLifeController extends AbstractController
             case "usda_branded":
                 $arrData = $dbSearcher->arrQueryUsdaBrandedSpecific($strId);
                 $food = new UsdaBrandedFood();
-                // get fat, calories, potassium, fiber
-                $floatServingSize = (float) $arrData['serving_size'];
-                $servingSizeUnit = $arrData['serving_size_unit'];
-                $floatFatAmount = $floatQty * (float) $arrData['fat_amount'];
-                $floatProteinAmount = $floatQty * (float) $arrData['protein_amount'];
-                $floatEnergyAmount = $floatQty * (float) $arrData['energy_amount'];
-                $floatPotassiumAmount = $floatQty * (float) $arrData['potassium_amount'];
-                $floatCarbAmount = $floatQty * (float) $arrData['carb_amount'];
-                $floatFiberAmount = $floatQty * (float) $arrData['fiber_amount'];
-                $strBrandOwner = $arrData['brand_owner'];
 
                 // set attributes
                 $food->setUser($this->getUser());
-                $food->setServingSize((float) $floatServingSize);
-                $food->setServingSizeUnit($servingSizeUnit);
-                $food->setFatAmount((float) $floatFatAmount);
-                $food->setProteinAmount((float) $floatProteinAmount);
-                $food->setEnergyAmount((float) $floatEnergyAmount);
-                $food->setPotassiumAmount((float) $floatPotassiumAmount);
-                $food->setCarbAmount((float) $floatCarbAmount);
-                $food->setFiberAmount((float) $floatFiberAmount);
+                $food->setServingSize((float) $arrData['serving_size']);
+                $food->setServingSizeUnit($arrData['serving_size_unit']);
+                $food->setFatAmount((float) $arrData['fat_amount']);
+                $food->setProteinAmount((float) $arrData['protein_amount']);
+                $food->setEnergyAmount((float) $arrData['energy_amount']);
+                $food->setPotassiumAmount((float) $arrData['potassium_amount']);
+                $food->setCarbAmount((float) $arrData['carb_amount']);
+                $food->setFiberAmount((float) $arrData['fiber_amount']);
                 $food->setDate(new \DateTime());
                 $food->setDbId((int) $strId);
-                $food->setBrandName($strBrandOwner);
+                $food->setBrandName($arrData['brand_owner']);
                 $food->setDescription($arrData['description']);
+                $food->setQuantity($floatQty);
 
                 $this->em->persist($food);
                 $this->em->flush();
@@ -215,29 +197,21 @@ class MLifeController extends AbstractController
             case "usda_non-branded":
                 $arrData = $dbSearcher->arrQueryUsdaNonBrandedSpecific($strId);
                 $food = new UsdaNonBrandedFood();
-                // get fat, calories, potassium, fiber
-                $floatServingSize = (float) $arrData['serving_size'];
-                $servingSizeText = $arrData['serving_text'];
-                $floatFatAmount = $floatQty * (float) $arrData['fat_amount'];
-                $floatProteinAmount = $floatQty * (float) $arrData['protein_amount'];
-                $floatEnergyAmount = $floatQty * (float) $arrData['energy_amount'];
-                $floatPotassiumAmount = $floatQty * (float) $arrData['potassium_amount'];
-                $floatCarbAmount = $floatQty * (float) $arrData['carb_amount'];
-                $floatFiberAmount = $floatQty * (float) $arrData['fiber_amount'];
 
                 // set attributes
                 $food->setUser($this->getUser());
-                $food->setServingSize((float) $floatServingSize);
-                $food->setServingText($servingSizeText);
-                $food->setFatAmount((float) $floatFatAmount);
-                $food->setProteinAmount((float) $floatProteinAmount);
-                $food->setEnergyAmount((float) $floatEnergyAmount);
-                $food->setPotassiumAmount((float) $floatPotassiumAmount);
-                $food->setCarbAmount((float) $floatCarbAmount);
-                $food->setFiberAmount((float) $floatFiberAmount);
+                $food->setServingSize((float) $arrData['serving_size']);
+                $food->setServingText($arrData['serving_text']);
+                $food->setFatAmount((float) $arrData['fat_amount']);
+                $food->setProteinAmount((float) $arrData['protein_amount']);
+                $food->setEnergyAmount((float) $arrData['energy_amount']);
+                $food->setPotassiumAmount((float) $arrData['potassium_amount']);
+                $food->setCarbAmount((float) $arrData['carb_amount']);
+                $food->setFiberAmount((float) $arrData['fiber_amount']);
                 $food->setDate(new \DateTime());
                 $food->setDbId((int) $strId);
                 $food->setDescription($arrData['description']);
+                $food->setQuantity($floatQty);
 
                 $this->em->persist($food);
                 $this->em->flush();
