@@ -323,4 +323,16 @@ class UsdaNonBrandedFood
     public function getImgPath(): string{
         return Util::strGetImgPathNoRestaurant($this->getDescription(),DatabaseConfig::$IMG_DIR.'/'.DatabaseConfig::$USDA_NON_BRANDED_IMGS);
     }
+    public function getTotalEnergyAmount(): float{
+        return $this->getEnergyAmount() * $this->getQuantity();
+    }
+    public function getTotalPotassiumAmount(): float{
+        return $this->getPotassiumAmount() * $this->getQuantity();
+    }
+    public function getTotalFiberAmount(): float{
+        return $this->getFiberAmount() * $this->getQuantity();
+    }
+    public function getTotalFatAmount(): float{
+        return $this->getFatAmount() * $this->getQuantity();
+    }
 }

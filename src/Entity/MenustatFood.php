@@ -354,9 +354,6 @@ class MenustatFood
 
         return $this;
     }
-    public function getImgPath(): string{
-        return Util::strGetImgPath($this->getDescription(),$this->getRestaurant(),DatabaseConfig::$IMG_DIR.'/'.DatabaseConfig::$MENUSTAT_IMGS);
-    }
 
     public function getQuantity(): ?float
     {
@@ -368,5 +365,21 @@ class MenustatFood
         $this->Quantity = $Quantity;
 
         return $this;
+    }
+    public function getImgPath(): string{
+        return Util::strGetImgPath($this->getDescription(),$this->getRestaurant(),DatabaseConfig::$IMG_DIR.'/'.DatabaseConfig::$MENUSTAT_IMGS);
+    }
+
+    public function getTotalEnergyAmount(): float{
+        return $this->getEnergyAmount() * $this->getQuantity();
+    }
+    public function getTotalPotassiumAmount(): float{
+        return $this->getPotassiumAmount() * $this->getQuantity();
+    }
+    public function getTotalFiberAmount(): float{
+        return $this->getFiberAmount() * $this->getQuantity();
+    }
+    public function getTotalFatAmount(): float{
+        return $this->getFatAmount() * $this->getQuantity();
     }
 }

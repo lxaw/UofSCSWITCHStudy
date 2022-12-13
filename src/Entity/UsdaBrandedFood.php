@@ -668,4 +668,16 @@ class UsdaBrandedFood
     public function getImgPath(): string{
         return Util::strGetImgPath($this->getDescription(),$this->getBrandName(),DatabaseConfig::$IMG_DIR.'/'.DatabaseConfig::$USDA_BRANDED_IMGS);
     }
+    public function getTotalEnergyAmount(): float{
+        return $this->getEnergyAmount() * $this->getQuantity();
+    }
+    public function getTotalPotassiumAmount(): float{
+        return $this->getPotassiumAmount() * $this->getQuantity();
+    }
+    public function getTotalFiberAmount(): float{
+        return $this->getFiberAmount() * $this->getQuantity();
+    }
+    public function getTotalFatAmount(): float{
+        return $this->getFatAmount() * $this->getQuantity();
+    }
 }
