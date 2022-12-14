@@ -39,30 +39,24 @@ class FoodController extends AbstractController
     #[Route('/food', name: 'FoodController__index')]
     public function index(): Response
     {
-        $menustatFoodRepo = $this->em->getRepository(MenustatFood::class);
-        $usdaBrandedFoodRepo = $this->em->getRepository(UsdaBrandedFood::class);
-        $usdaNonBrandedFoodRepo = $this->em->getRepository(UsdaNonBrandedFood::class);
-
-        $menustatFoods= $menustatFoodRepo->findBy(
-            ['User' => $this->getUser()],
-            ['Date' => 'ASC']
-        );
-        $usdaBrandedFoods = $usdaBrandedFoodRepo -> findBy(
-            ['User' => $this->getUser()],
-            ['Date' => 'ASC']
-        );
-        $usdaNonBrandedFoods = $usdaNonBrandedFoodRepo -> findBy(
-            ['User' => $this->getUser()],
-            ['Date' => 'ASC']
-        );
-
-        $foodArr = array_merge($menustatFoods,$usdaBrandedFoods,$usdaNonBrandedFoods);
-        // add all foods to array
-
-        usort($foodArr,array($this,"date_sort"));
+        $conn = $this->em->getConnection();
+        $sqlMenustatDates = '
+        select distinct date
+        from (
+            select date from menustat_food
+            union
+            select date from usda_branded_food
+            union
+            select date from usda_non_branded_food
+        ) tableName
+        order by date DESC
+        ';
+        $stmt = $conn->prepare($sqlMenustatDates);
+        $dates = $stmt ->execute()->fetchAll();
+        print_r($dates);
 
         return $this->render('food/index.html.twig', [
-            'foodArr' => $foodArr,
+            'dates'=>$dates
         ]);
     }
 

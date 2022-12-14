@@ -13,28 +13,10 @@
     </h1>
     <div>
         <h5>
-            Your Entered Foods
+            By Date
         </h5>
         <div>
-            {% for food in foodArr %}
-            <div class = 'border p-3 mb-3'>
-                <div class = "d-flex justify-content-between">
-                    <div>
-                        <p>Food Id: {{food.id}}</p>
-                    </div>
-                    <div>
-                        <p>Date: {{food.Date | date('m-d-Y')}}</p>
-                    </div>
-                </div>
-                <div class = 'd-flex justify-content-center'>
-                    <img src={{food.getImgPath}}>
-                </div>
-                <a href="/food/show/{{get_class(food)}}/{{food.id}}">View</a>
-                <p>Food Name: {{food.Description}}</p>
-                <p>Food Id: {{food.id}}</p>
-                <a href="/food/delete/{{get_class(food)}}/{{food.id}}">Delete?</a>
-            </div>
-            {% endfor %}
+
         </div>
     </div>
 
