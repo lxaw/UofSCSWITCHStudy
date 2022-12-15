@@ -24,6 +24,13 @@ use Symfony\Component\HttpFoundation\Request;
 // use App\FoodDatabaseInteraction;
 
 
+/*
+TO DO:
+Make sure that private routes are private for all users, ie
+for displaying a food by id, make sure only that user who
+created the food can do this.
+*/
+
 class FoodController extends AbstractController
 {
     private $em;
@@ -36,12 +43,46 @@ class FoodController extends AbstractController
         return ($objA->getDate() < $objB->getDate()) ? -1:1;
     }
 
+    #[Route('/food/date/{date}/',name:'FoodController__food-by-date')]
+    public function byDate($date): Response
+    {
+        $menustatRepo = $this->em->getRepository(MenustatFood::class);
+        $usdaBrandedRepo= $this->em->getRepository(UsdaBrandedFood::class);
+        $usdaNonBrandedRepo= $this->em->getRepository(UsdaNonBrandedFood::class);
+
+        $userFoods = array();
+
+        // push the foods
+        $userFoods = array_merge($userFoods,$menustatRepo->findBy([
+            'User' =>  $this->getUser()
+        ]));
+        $userFoods = array_merge($userFoods,$usdaBrandedRepo->findBy([
+            'User' =>  $this->getUser()
+        ]));
+        $userFoods = array_merge($userFoods,$usdaNonBrandedRepo->findBy([
+            'User' =>  $this->getUser()
+        ]));
+
+        $foods = array();
+
+        foreach($userFoods as $food){
+            if($food->getDate()->format('Y-m-d') == $date){
+                array_push($foods,$food);
+            }
+        }
+
+        return $this->render('food/date/index.html.twig',[
+            'foods'=>$foods,
+            'date'=>$date
+        ]);
+    }
+
     #[Route('/food', name: 'FoodController__index')]
     public function index(): Response
     {
         $conn = $this->em->getConnection();
-        $sqlMenustatDates = '
-        select distinct date
+        $sqlMenustatDates = "
+        select distinct substring_index(date,' ',1) as subDate
         from (
             select date from menustat_food
             union
@@ -49,11 +90,10 @@ class FoodController extends AbstractController
             union
             select date from usda_non_branded_food
         ) tableName
-        order by date DESC
-        ';
+        order by subDate DESC
+        ";
         $stmt = $conn->prepare($sqlMenustatDates);
-        $dates = $stmt ->execute()->fetchAll();
-        print_r($dates);
+        $dates = $stmt ->execute()->fetchAll(\PDO::FETCH_COLUMN);
 
         return $this->render('food/index.html.twig', [
             'dates'=>$dates
