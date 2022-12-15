@@ -11,57 +11,153 @@
         Eaten on {{date | date('m-d-Y')}}
     </h1>
     <hr>
-    {% for food in foods %}
-        <div class = 'container d-flex justify-content-center'>
-            <div class = 'card m-3 p-3' style="width:50rem;">
-                <div class = "d-flex justify-content-between">
+    <div>
+        <h1 class = 'text-center'>
+            Pie Charts
+        </h1>
+    </div>
+    {% include './pie_charts/general/pie_charts.html.twig' %}
+    <hr>
+    <div style="height: 30rem; overflow:auto">
+        {% for food in foods %}
+            <div class = 'container d-flex justify-content-center'>
+                <div class = 'card m-3 p-3' style="width:50rem;">
+                    <div class = "d-flex justify-content-between">
+                        <div>
+                            <img src = "{{food.getImgPath}}" alt = "{{food.Description}} img" class = 'rounded'>
+                        </div>
+                        <div>
+                            <h1 class = 'text-center'>
+                                {{food.Description}}
+                            </h1>
+                        </div>
+                        <div>
+                            Date: {{food.Date | date('m-d-Y')}}
+                        </div>
+                    </div>
+                    <hr>
                     <div>
-                        <img src = "{{food.getImgPath}}" alt = "{{food.Description}} img" class = 'rounded'>
-                    </div>
-                    <div>
-                        <h1 class = 'text-center'>
-                            {{food.Description}}
-                        </h1>
-                    </div>
-                    <div>
-                        Date: {{food.Date | date('m-d-Y')}}
-                    </div>
-                </div>
-                <hr>
-                <div>
-                    <div class = 'row mb-3'>
-                        <div class = 'col-6'>
-                            Calories: {{food.EnergyAmount}} x {{food.Quantity}} serving(s) = {{food.getTotalEnergyAmount}} KCALS
+                        <div class = 'row mb-3'>
+                            <div class = 'col-6'>
+                                Calories: {{food.EnergyAmount}} x {{food.Quantity}} serving(s) = <span class = "calories"> {{food.getTotalEnergyAmount}}</span> KCALS
+                            </div>
+                            <div class = 'col-6'>
+                                Fat: {{food.FatAmount}} x {{food.Quantity}} serving(s) = <span class = "fat" > {{food.getTotalFatAmount}} </span> g
+                            </div>
                         </div>
-                        <div class = 'col-6'>
-                            Fat: {{food.FatAmount}} x {{food.Quantity}} serving(s) = {{food.getTotalFatAmount}} g
+                        <div class = 'row mb-3'>
+                            <div class = 'col-6'>
+                                Potassium: {{food.PotassiumAmount}} x {{food.Quantity}} serving(s) = <span class = "potassium"> {{food.GetTotalPotassiumAmount}}</span>g
+                            </div>
+                            <div class = 'col-6'>
+                                Fiber: {{food.FiberAmount}} x {{food.Quantity}} serving(s) = <span class = "fiber"> {{food.GetTotalFiberAmount}} </span> g
+                            </div>
                         </div>
-                    </div>
-                    <div class = 'row mb-3'>
-                        <div class = 'col-6'>
-                            Potassium: {{food.PotassiumAmount}} x {{food.Quantity}} serving(s) = {{food.GetTotalPotassiumAmount}} g
-                        </div>
-                        <div class = 'col-6'>
-                            Fiber: {{food.FiberAmount}} x {{food.Quantity}} serving(s) = {{food.GetTotalFiberAmount}} g
+                        <div class = "row mb-3">
+                            <div class = 'col-6'>
+                                Quantity: {{food.Quantity}}
+                            </div>
                         </div>
                     </div>
-                    <div class = "row mb-3">
-                        <div class = 'col-6'>
-                            Quantity: {{food.Quantity}}
-                        </div>
+                    <div class = 'd-flex justify-content-between'>
+                        <button class = 'btn btn-sm btn-outline-primary' onclick = "window.location.href = '/food/show/{{get_class(food)}}/{{food.id}}'">
+                            Detail
+                        </button>
                     </div>
-                </div>
-                <div class = 'd-flex justify-content-between'>
-                    <button class = 'btn btn-sm btn-outline-primary'>
-                        Edit
-                    </button>
-                    <button class = 'btn btn-sm btn-outline-danger' onclick="window.location.href='/food/delete/{{get_class(food)}}/{{food.id}}'" >
-                        Delete
-                    </button>
                 </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
 </div>
 
 {% endblock body %}
+
+{% block javascript %}
+<!-- chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- nutrient pie chart wrapper -->
+<script type="text/javascript" src="{{asset('js/NutrientPieChart.js')}}"></script>
+
+<script>
+    // store the chart objects and their limits
+    // access like
+    // __CHARTS[CHART_NAME]['chart'] -> gives the chart itself
+    //
+    var __CHARTS = {
+
+    };
+
+    // standard pie chart colors
+    // find out why my css is not working
+    //
+    var __CHART_COLORS = {
+        'my-green':"#4ad323",
+        'my-red':'#e00814',
+        'my-black':'#080808',
+        'my-orange':'#ff6300'
+    }
+
+    // functions on start
+    //
+    $(document).ready(()=>{
+        // set up charts
+        //
+        $('.div__graph-section').each((i,e)=>{
+            // get name of chart
+            //
+            var strName = $(e).attr('data-name');
+            // depending on nutrient name, change colors
+            //
+            var strNonProgressColor = __CHART_COLORS['my-green'];
+            var strProgressColor = __CHART_COLORS['my-orange'];
+            var boolIsGoUp = true;
+            if(strName == "fat" || strName == "calorie"){
+                strNonProgressColor = __CHART_COLORS['my-orange'];
+                strProgressColor = __CHART_COLORS['my-green'];
+                boolIsGoUp = false;
+            }
+            // the nutrient limit
+            var intNutrientLimit = parseInt($(e).attr('data-limit'));
+            // the chart id
+            var strChartId = $(e).find('.canvas__chart').first().attr('id');
+            var arrLabels = ['Remaining','Used'];
+            var arrData = [intNutrientLimit,0];
+
+
+            var chart = new NutrientPieChart(arrLabels,arrData,strChartId,intNutrientLimit,strProgressColor,strNonProgressColor,__CHART_COLORS['my-red'],boolIsGoUp);
+
+            // initialize the chart object
+            chart.createChart();
+            __CHARTS[strName]= {'chart':chart,'limit':intNutrientLimit};
+        })
+
+        totalKcal = 0;
+        totalFat = 0;
+        totalPotassium = 0;
+        totalFiber = 0;
+
+        // get totals
+        $(".calories").each((i,e)=>{
+            totalKcal += parseInt($(e).text(),10);
+        })
+        $(".fat").each((i,e)=>{
+            totalFat += parseInt($(e).text(),10);
+        })
+        $(".potassium").each((i,e)=>{
+           totalPotassium += parseInt($(e).text(),10);
+        })
+        $(".fiber").each((i,e)=>{
+            totalFiber = parseInt($(e).text(),10);
+        })
+
+        // put in the values of each nutrient
+        //
+        __CHARTS['calorie']['chart'].updateVal(totalKcal);
+        __CHARTS['fat']['chart'].updateVal(totalFat);
+        __CHARTS['fiber']['chart'].updateVal(totalFiber);
+        __CHARTS['potassium']['chart'].updateVal(totalPotassium);
+
+    });
+</script>
+
+{% endblock javascript %}
