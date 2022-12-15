@@ -16,7 +16,13 @@
             By Date
         </h5>
         <div>
-
+            {% for date in dates %}
+                <div class = 'card p-3 m-3'>
+                    <a href = "/food/date/{{date}}/">
+                        {{date | date('m-d-y')}}
+                    </a>
+                </div>
+            {% endfor %}
         </div>
     </div>
 
