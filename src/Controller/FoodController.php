@@ -1,18 +1,19 @@
 <?php
 
+/*
+Controll all the food-related views.
+*/
+
 namespace App\Controller;
 
+// required installs
 use Doctrine\ORM\EntityManagerInferface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 
-// use App\Entity\Food;
-// use App\Form\FoodFormType;
-
-
-// foods
+// food entities and repositories
 use App\Entity\MenustatFood;
 use App\Repository\MenustatRepository;
 use App\Entity\UsdaBrandedFood;
@@ -21,8 +22,6 @@ use App\Entity\UsdaNonBrandedFood;
 use App\Repository\UsdaNonBrandedFoodRepository;
 
 use Symfony\Component\HttpFoundation\Request;
-// use App\FoodDatabaseInteraction;
-
 
 /*
 TO DO:
@@ -33,19 +32,33 @@ created the food can do this.
 
 class FoodController extends AbstractController
 {
+    // The entity manager
     private $em;
+
+    // Constructor
     public function __construct(EntityManagerInterface $em){
         $this->em = $em;
     }
 
+    // Sort by dates.
+    //
     function date_sort($objA,$objB){
         if($objA->getDate() == $objB->getDate()) return 0;
         return ($objA->getDate() < $objB->getDate()) ? -1:1;
     }
 
-    #[Route('/food/date/{date}/',name:'FoodController__food-by-date')]
+    #[Route('/food/date/{date}/',name:'FoodController__food-by-date')]    
+    /**
+     * byDate
+     * Show foods by date.
+     * Get all the foods and display them to user.
+     * 
+     * @param  mixed $date
+     * @return Response
+     */
     public function byDate($date): Response
     {
+        // get each repo
         $menustatRepo = $this->em->getRepository(MenustatFood::class);
         $usdaBrandedRepo= $this->em->getRepository(UsdaBrandedFood::class);
         $usdaNonBrandedRepo= $this->em->getRepository(UsdaNonBrandedFood::class);
@@ -65,6 +78,7 @@ class FoodController extends AbstractController
 
         $foods = array();
 
+        // get the foods by specified date
         foreach($userFoods as $food){
             if($food->getDate()->format('Y-m-d') == $date){
                 array_push($foods,$food);
@@ -77,7 +91,12 @@ class FoodController extends AbstractController
         ]);
     }
 
-    #[Route('/food', name: 'FoodController__index')]
+    #[Route('/food', name: 'FoodController__index')]    
+    /**
+     * index
+     * Display a list of dates where food was entered
+     * @return Response
+     */
     public function index(): Response
     {
         $conn = $this->em->getConnection();
@@ -100,7 +119,15 @@ class FoodController extends AbstractController
         ]);
     }
 
-    #[Route('/food/show/{strDataType}/{id}', methods: ["GET"],name:'FoodController__getFoodById')]
+    #[Route('/food/show/{strDataType}/{id}', methods: ["GET"],name:'FoodController__getFoodById')]    
+    /**
+     * Show a specific food.
+     * Given an id and datatype, show the food.
+     *
+     * @param  mixed $strDataType
+     * @param  mixed $id
+     * @return Response
+     */
     public function show($strDataType,$id): Response
     {
         $food = NULL;
@@ -127,69 +154,6 @@ class FoodController extends AbstractController
                     'food' => $food
                 ]);
         }
-        return $this->redirectToRoute('FoodController__index');
-    }
-    #[Route('/food/edit/{id}', methods: ["GET"],name:'FoodController__editFoodById')]
-    public function edit($id,Request $request): Response
-    {
-        $repository = $this->em->getRepository(Food::class);
-
-        $food = $repository->find($id);
-
-        $form = $this->createForm(FoodFormType::class, $food);
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()){
-            dd("OK");
-        }
-
-
-        return $this->render('food/edit.html.twig',[
-            'food' => $food,
-            'form' => $form->createView()
-        ]);
-    }
-    #[Route('/food/create',name:'FoodController__createFood')]
-    public function create(Request $request): Response
-    {
-        $food = new Food();
-        $form = $this->createForm(FoodFormType::class,$food);
-
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()){
-            $newFood = $form->getData();
-            $newFood->setUser($this->getUser());
-            $this->em->persist($newFood);
-            $this->em->flush();
-
-            return $this->redirectToRoute('FoodController__getFoodById',['id'=>$newFood->getId()]);
-        }
-
-        return $this->render('food/create.html.twig',[
-            'form' => $form->createView()
-        ]);
-    }
-
-    #[Route('/food/delete/{foodType}/{id}',methods:['GET','DELETE'],name:'delete_food')]
-    public function delete($foodType,$id): Response
-    {
-        $repository = NULL;
-        switch($foodType){
-            case "MenustatFood" :
-                $repository = $this->em->getRepository(MenustatFood::class);
-                break;
-            case "UsdaBrandedFood":
-                $repository = $this->em->getRepository(UsdaBrandedFood::class);
-                break;
-            case "UsdaNonBrandedFood":
-                $repository = $this->em->getRepository(UsdaN::class);
-                break;
-        }
-        $food = $repository->find($id);
-        $this->em->remove($food);
-        $this->em->flush();
-
         return $this->redirectToRoute('FoodController__index');
     }
 }
