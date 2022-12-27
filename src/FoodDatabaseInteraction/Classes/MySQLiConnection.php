@@ -36,7 +36,7 @@ class MySQLiConnection{
         try{
             $this->conn = new \mysqli(DatabaseConfig::$DB_HOST,DatabaseConfig::$DB_USER,DatabaseConfig::$DB_PASSWORD,DatabaseConfig::$DB_NAME
             ) or 
-            die("connection failed: %s\n".$conn->error);
+            die("connection failed: %s\n".$this->conn->error);
         }catch(Exception $e){
             echo($e);
             return NULL;
