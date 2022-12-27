@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Update food
+{% endblock title %}
+
+{% block body %}
+
+<div class="container">
+    {{form_start(form)}}
+        {{form_widget(form)}}
+        <button class="btn btn-sm btn-outline-primary">
+            Submit
+        </button>
+    {{form_end(form)}}
+</div>
+
+{% endblock body %}

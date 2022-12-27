@@ -7,7 +7,6 @@ Controll all the food-related views.
 namespace App\Controller;
 
 // required installs
-use Doctrine\ORM\EntityManagerInferface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,6 +18,7 @@ use App\Repository\MenustatRepository;
 use App\Entity\UsdaBrandedFood;
 use App\Repository\UsdaBrandedFoodRepository;
 use App\Entity\UsdaNonBrandedFood;
+use App\Form\MenustatFoodFormType;
 use App\Repository\UsdaNonBrandedFoodRepository;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -155,5 +155,58 @@ class FoodController extends AbstractController
                 ]);
         }
         return $this->redirectToRoute('FoodController__index');
+    }
+    #[Route('/food/update/{strDataType}/{id}', methods: ["GET","POST"],name:'FoodController__updateFoodById')]    
+    /**
+     * Show a specific food.
+     * Given an id and datatype, show the food.
+     *
+     * @param  mixed $strDataType
+     * @param  mixed $id
+     * @return Response
+     */
+    public function update($strDataType,$id,Request $request): Response
+    {
+        $form = NULL;
+        $foodRepo = NULL;
+        $food = NULL;
+        // path to render
+        $strRenderPath = "";
+
+        switch($strDataType){
+            case "MenustatFood":
+                // get the food
+                $foodRepo = $this->em->getRepository(MenustatFood::class);
+                $food = $foodRepo->find($id);
+                $form = $this->createForm(MenustatFoodFormType::class,$food);
+                $form->handleRequest($request);
+                if($form->isSubmitted() && $form->isValid()){
+                    $food->setDescription($form->get('Description')->getData());
+                    $this->em->flush();
+                    return $this->redirectToRoute('FoodController__getFoodById',array(
+                        'strDataType' => $strDataType,
+                        'id' => $id
+                    ));
+                }else{
+                    $strRenderPath = "/food/menustat/update.html.twig";
+                }
+                break;
+            case "UsdaBrandedFood":
+                $foodRepo= $this->em->getRepository(UsdaBrandedFood::class);
+                break;
+            case "UsdaNonBrandedFood":
+                $foodRepo= $this->em->getRepository(UsdaNonBrandedFood::class);
+                break;
+        }
+
+
+        return $this->render($strRenderPath,[
+            'food' => $food,
+            'form'=> $form->createView()
+        ]);
+    }
+    private function checkUserOwnsFood(){
+        // todo
+        
     }
 }
