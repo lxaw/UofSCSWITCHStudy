@@ -112,9 +112,6 @@ class DBSearcher{
 
         $strRestaurant = "";
         $strDescription = "";
-        $strServingSize = "";
-        $strServingSizeText = "";
-        $strServingSizeUnit = "";
         $strImgPath = "";
         $strId = '';
 
@@ -234,7 +231,6 @@ class DBSearcher{
         $result =$stmt->get_result();
         $data = $result->fetch_all(MYSQLI_ASSOC);
 
-        $strRestaurant = "";
         $strDescription = "";
         $strImgPath = "";
         $strFdcId = "";
@@ -331,14 +327,15 @@ class DBSearcher{
             array_push($templateData,$arrSubEntry);
         }
 
-
         $stmt->close();
-
         return $templateData;
     }
     /*
     TO DO: 
     name these functions better
+    Get the SPECIFIC food. The function
+    `arrQuery...Detail` will detail only the fdcid of the food, which could contain multiple possible serving sizes. This
+    function properly identifies the food.
     */
     function arrQueryUsdaBrandedSpecific($specificId){
         $stmt = $this->_MySQLiConnection->mysqli()->prepare('
@@ -459,6 +456,8 @@ class DBSearcher{
     /*
     TO DO: 
     name these functions better
+    Get the SPECIFIC food. The function `arrQuery...Detail` only gets the food by FDCID, which 
+    will return multiple possible serving sizes. This query gets the correct serving size wanted.
     */
     function arrQueryUsdaNonBrandedSpecific($specificId){
         $stmt = $this->_MySQLiConnection->mysqli()->prepare('
