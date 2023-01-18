@@ -88,5 +88,7 @@
         </footer>
     {% endblock footer %}
 
-    {% block javascript %}{% endblock %}
+    {% block javascript %}
+        {{encore_entry_script_tags('app')}}
+    {% endblock %}
 </html>

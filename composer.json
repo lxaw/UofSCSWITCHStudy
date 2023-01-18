@@ -40,9 +40,11 @@
         "symfony/string": "6.1.*",
         "symfony/translation": "6.1.*",
         "symfony/twig-bundle": "6.1.*",
+        "symfony/ux-react": "^2.6",
         "symfony/validator": "6.1.*",
         "symfony/web-link": "6.1.*",
         "symfony/webpack-encore-bundle": "^1.16",
+        "symfony/webpack-encore-pack": "^1.0",
         "symfony/yaml": "6.1.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"
