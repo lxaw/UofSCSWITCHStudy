@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "chart.js": "^3.9.1",
+    "moment": "^2.29.4",
     "react-calendar": "^4.0.0"
   },
   "name": "mlife",

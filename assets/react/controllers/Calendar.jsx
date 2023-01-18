@@ -2,14 +2,35 @@
 import React, { useState } from 'react';
 
 import Calendar from 'react-calendar';
+import './calendar.css'
+
+import moment from 'moment/moment';
 
 export default function () {
-    const [value,onChange] = useState(new Date());
+    const [date, setDate] = useState(new Date());
 
-    return (
-        <div>
-            <h1>Hellow</h1>
-            <Calendar onChange={onChange} value={value}/>
-        </div>
-    )
+    const mark = [
+        '01-01-2023'
+    ]
+
+  return (
+    <div className='app'>
+      <div className='calendar-container'>
+        <Calendar 
+            onChange={setDate} 
+            tileClassName={({ date, view }) => {
+            if(mark.find(x=>x===moment(date).format("DD-MM-YYYY"))){
+                return  'color:red'
+            }
+            }}
+            value={date} 
+            locale="en-EN"
+        />
+      </div>
+      <p className='text-center'>
+        <span className='bold'>Selected Date:</span>{' '}
+        {date.toDateString()}
+      </p>
+    </div>
+  );
 }
