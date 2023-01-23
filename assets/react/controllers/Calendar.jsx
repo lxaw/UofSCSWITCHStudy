@@ -18,11 +18,6 @@ export default function () {
       <div className='calendar-container'>
         <Calendar 
             onChange={setDate} 
-            tileClassName={({ date, view }) => {
-            if(mark.find(x=>x===moment(date).format("DD-MM-YYYY"))){
-                return  'color:red'
-            }
-            }}
             value={date} 
             locale="en-EN"
         />

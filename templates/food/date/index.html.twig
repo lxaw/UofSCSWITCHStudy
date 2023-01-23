@@ -124,7 +124,7 @@
             var arrData = [intNutrientLimit,0];
 
 
-            var chart = new NutrientPieChart(arrLabels,arrData,strChartId,intNutrientLimit,strProgressColor,strNonProgressColor,__CHART_COLORS['my-red'],boolIsGoUp);
+            var chart = new NutrientPieChart(arrLabels,arrData,strChartId,intNutrientLimit,strProgressColor,strNonProgressColor,__CHART_COLORS['my-red'],boolIsGoUp,`#span__total-${strName}`);
 
             // initialize the chart object
             chart.createChart();

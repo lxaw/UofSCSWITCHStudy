@@ -14,12 +14,12 @@
     <div {{react_component('Calendar')}} ></div>
     <div>
         <h5>
-            By Date
+            Entries By Date
         </h5>
         <div>
             {% for date in dates %}
-                <div class = 'card p-3 m-3'>
-                    <a href = "/food/date/{{date}}/">
+                <div class = 'container border m-3 p-3'>
+                    <a href = "/food/date/{{date}}/" >
                         Date: {{date | date('m-d-y')}}
                     </a>
                 </div>
