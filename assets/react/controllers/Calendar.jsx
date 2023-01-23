@@ -6,12 +6,10 @@ import './calendar.css'
 
 import moment from 'moment/moment';
 
-export default function () {
-    const [date, setDate] = useState(new Date());
-
-    const mark = [
-        '01-01-2023'
-    ]
+export default function (props) {
+  const [date, setDate] = useState(new Date());
+  
+  const style = {color:'red'}
 
   return (
     <div className='app'>
@@ -20,6 +18,12 @@ export default function () {
             onChange={setDate} 
             value={date} 
             locale="en-EN"
+            tileClassName={({ date, view }) => {
+              if(props.marks.find(x=>x===moment(date).format("YYYY-MM-DD"))){
+                console.log(date)
+                return style
+              }
+            }}
         />
       </div>
       <p className='text-center'>
