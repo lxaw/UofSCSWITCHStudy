@@ -5,11 +5,12 @@ This class represents a NutrientPieChart.
 It is a wrapper over a Chart.js Pie (Doughnut) object.
 */
 class NutrientPieChart{
-    constructor(arrLabels,arrData,strChartId,intNutrientLimit,strColorProgress,strColorNonProgress,strColorOver,boolIsGoUp){
+    constructor(arrLabels,arrData,strChartId,intNutrientLimit,strColorProgress,strColorNonProgress,strColorOver,boolIsGoUp,idSpanUpdateSpan){
         this.arrLabels = arrLabels;
         this.arrData = arrData;
         this.strChartId = strChartId;
         this.intNutrientLimit = intNutrientLimit
+        this.idSpanUpdateSpan = idSpanUpdateSpan
         // the chart object
         this.chart = null; 
 
@@ -97,20 +98,26 @@ class NutrientPieChart{
         this.setProgressColor(this.strColorOver);
         // update text to be 100%
         this.setProgressVal(this.intNutrientLimit);
+        // update total span to be red
+        $(this.idSpanUpdateSpan).css("color",this.strColorOver)
 
         this.updateText();
     }
-
-    updateData(intAdded){
-        this.setProgressVal(intAdded);
+    // this function depends on the html
+    // we assume that all spans that hold the totals are in format
+    // #span__total-[NUTRIENT_NAME]
+    updateNutrientTotalSpan(intNewVal){
+        $(this.idSpanUpdateSpan).text(intNewVal)
+    }
+    updateData(intVal){
+        this.setProgressVal(intVal);
         this.updateText();
     }
-
-
     updateUiNotOver(){
         // if red, change to green
         this.setProgressColor(this.strColorProgress);
         this.setNonProgressColor(this.strColorNonProgress);
+        $(this.idSpanUpdateSpan).css("color",this.strColorProgress)
     }
     updateText(){
         var self = this;
@@ -144,6 +151,7 @@ class NutrientPieChart{
         return this.boolOverLimit;
     }
     updateVal(intFinalVal){
+        this.updateNutrientTotalSpan(intFinalVal)
         if(intFinalVal >= this.intGetLimit()){
             if(!this.boolGetOverLimit()){
                 // final value is greater than max but we are not yet over

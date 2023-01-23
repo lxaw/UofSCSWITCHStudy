@@ -260,6 +260,9 @@
             "templates/base.html.twig"
         ]
     },
+    "symfony/ux-react": {
+        "version": "v2.6.1"
+    },
     "symfony/validator": {
         "version": "6.1",
         "recipe": {

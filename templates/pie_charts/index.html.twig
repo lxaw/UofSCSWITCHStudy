@@ -173,8 +173,7 @@
             var arrLabels = ['Remaining','Used'];
             var arrData = [intNutrientLimit,0];
 
-
-            var chart = new NutrientPieChart(arrLabels,arrData,strChartId,intNutrientLimit,strProgressColor,strNonProgressColor,__CHART_COLORS['my-red'],boolIsGoUp);
+            var chart = new NutrientPieChart(arrLabels,arrData,strChartId,intNutrientLimit,strProgressColor,strNonProgressColor,__CHART_COLORS['my-red'],boolIsGoUp,`#span__total-${strName}`);
 
             // initialize the chart object
             chart.createChart();
@@ -291,11 +290,6 @@
         intNewTotalFat = parseInt($("#span__total-fat").first().text()) + intAddFat
         intNewTotalPotassium = parseInt($("#span__total-potassium").first().text()) + intAddPotassium
 
-        updateNutrientTotalSpan(intNewTotalKcals,'calorie');
-        updateNutrientTotalSpan(intNewTotalFat,'fat');
-        updateNutrientTotalSpan(intNewTotalFiber,'fiber');
-        updateNutrientTotalSpan(intNewTotalPotassium,'potassium');
-
         // update graphs
         //
         __CHARTS['calorie']['chart'].updateVal(intNewTotalKcals);
@@ -337,12 +331,6 @@
         let intNewTotalFat = parseInt($('#span__total-fat').first().text()) + intRemoveFat
         let intNewTotalFiber = parseInt($('#span__total-fiber').first().text()) + intRemoveFiber
         let intNewTotalPotassium = parseInt($('#span__total-potassium').first().text()) + intRemovePotassium
-
-
-        updateNutrientTotalSpan(intNewTotalKcals,'calorie');
-        updateNutrientTotalSpan(intNewTotalFat,'fat');
-        updateNutrientTotalSpan(intNewTotalFiber,'fiber');
-        updateNutrientTotalSpan(intNewTotalPotassium,'potassium');
 
         // remove from graph
         //
@@ -403,11 +391,6 @@
         let intNewTotalFat = parseInt($("#span__total-fat").first().text()) + intNewFat - intCurrentFat
         let intNewTotalFiber = parseInt($("#span__total-fiber").first().text()) + intNewFiber - intCurrentFiber
         let intNewTotalPotassium = parseInt($("#span__total-potassium").first().text()) + intNewPotassium - intCurrentPotassium
-
-        updateNutrientTotalSpan(intNewTotalKcals,'calorie');
-        updateNutrientTotalSpan(intNewTotalFat,'fat');
-        updateNutrientTotalSpan(intNewTotalFiber,'fiber');
-        updateNutrientTotalSpan(intNewTotalPotassium,'potassium');
 
         // update the charts
         //
@@ -603,13 +586,6 @@
                 )
             }
         })
-    }
-
-    // add a kcal value to the total kcals
-    //
-    function updateNutrientTotalSpan(intNewVal,strNutrientType){
-        let strId = "#span__total-" + strNutrientType;
-        $(strId).text(intNewVal);
     }
 
     // update spans and charts
