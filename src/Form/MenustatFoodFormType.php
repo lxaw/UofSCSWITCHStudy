@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\MenustatFood;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -48,7 +48,7 @@ class MenustatFoodFormType extends AbstractType
             ]
             )
             ->add('ServingSize'
-                ,IntegerType::class,[
+                ,NumberType::class,[
                     'attr'=> array(
                         'class'=>'form-control',
                         'type'=>'number'
@@ -80,7 +80,7 @@ class MenustatFoodFormType extends AbstractType
             ]
             )
             ->add('EnergyAmount'
-            ,IntegerType::class,[
+            ,NumberType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'number'
@@ -88,70 +88,70 @@ class MenustatFoodFormType extends AbstractType
             ]
             )
             ->add('FatAmount'
-            ,IntegerType::class,[
+            ,NumberType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'number'
                 )
             ])
             ->add('SaturatedFatAmount'
-            ,IntegerType::class,[
+            ,NumberType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'number'
                 )
             ])
             ->add('TransFatAmount'
-            ,IntegerType::class,[
+            ,NumberType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'number'
                 )
             ])
             ->add('CholesterolAmount'
-            ,IntegerType::class,[
+            ,NumberType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'number'
                 )
             ])
             ->add('SodiumAmount'
-            ,IntegerType::class,[
+            ,NumberType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'number'
                 )
             ])
             ->add('PotassiumAmount'
-            ,IntegerType::class,[
+            ,NumberType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'number'
                 )
             ])
             ->add('CarbAmount'
-            ,IntegerType::class,[
+            ,NumberType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'number'
                 )
             ])
             ->add('ProteinAmount'
-            ,IntegerType::class,[
+            ,NumberType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'number'
                 )
             ])
             ->add('SugarAmount'
-            ,IntegerType::class,[
+            ,NumberType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'number'
                 )
             ])
             ->add('FiberAmount'
-            ,IntegerType::class,[
+            ,NumberType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'number'
@@ -164,7 +164,7 @@ class MenustatFoodFormType extends AbstractType
                 )
             ])
             ->add('Quantity'
-            ,IntegerType::class,[
+            ,NumberType::class,[
                 'attr'=>array(
                     'class'=>'form-control',
                     'type'=>'number'
