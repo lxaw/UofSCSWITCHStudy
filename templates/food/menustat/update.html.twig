@@ -7,9 +7,18 @@
 {% block body %}
 
 <div class="container">
+    <div class="d-flex flex-row justify-content-center" style="align-items:center">
+        <div>
+            <img src="{{food.getImgPath}}" alt="{{food.Description}}" class="rounded">
+        </div>
+        <div>
+            <h1>{{food.Description}}</h1>
+        </div>
+    </div>
+    <br>
     {{form_start(form)}}
         {{form_widget(form)}}
-        <button class="btn btn-sm btn-outline-primary">
+        <button class="btn btn-outline-success mt-3">
             Submit
         </button>
     {{form_end(form)}}
