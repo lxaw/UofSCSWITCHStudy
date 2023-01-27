@@ -9,72 +9,76 @@
         <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
         {# Boxicons #}
         <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-        {# Unicons #}
-        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+            {# Unicons #}
+            <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+            {# Custom styles #}
+            <link rel="stylesheet" href = "{{asset('build/app.css')}}">
+        {% endblock %}
     </head>
     <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
-    <img src="{{asset('images/uofsc_logo.png')}}" alt="UofSC Logo"
-    width="50rem" height="50rem"
-    >
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-        {% if app.user %}
-        <li class="nav-item active">
-            <a class="nav-link" href="/">
-            <i class="uil uil-estate"></i>
-            Home 
-            </a>
-        </li>
-        {% endif %}
-        {% if app.user %}
-        <li class = "nav-item active">
-            <a class = "nav-link" href = "/food">
-                <i class="uil uil-pizza-slice"></i>
-                Food
-            </a>
-        </li>
-        {% endif %}
-        <li class="nav-item">
-            <a class="nav-link" href="/about">
-                <i class="uil uil-subject"></i>
-                About
-            </a>
-        </li>
-        {% if app.user %}
-        <li class = "nav-item">
-            <a class="nav-link" href = "/user/pie_charts">
-            <i class="uil uil-bolt"></i>
-            Dashboard
-            </a>
-        </li>
-        {% endif %}
-        
-        {% if not app.user %}
-        <li class="nav-item">
-            <a class="nav-link" href="/register">
-            <i class="uil uil-pen"></i>
-            Register
-            </a>
-        </li>
-        {% endif %}
-        <li class="nav-item">
-            <a class="nav-link" href="/{{app.user ? 'logout':'login'}}"
-            @click="isOpen = false"
-            >
-            {{app.user ? '
-            <i class="uil uil-signout"></i>
-            Logout
-            ':'
-            <i class="uil uil-signin"></i>
-            Login'}}
-            </a>
-        </li>
-        </ul>
-    </div>
+        <img src="{{asset('images/uofsc_logo.png')}}" alt="UofSC Logo"
+        width="50rem" height="50rem"
+        >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-3">
+            {% if app.user %}
+            <li class="nav-item active">
+                <a class="nav-link" href="/">
+                <i class="uil uil-estate"></i>
+                Home 
+                </a>
+            </li>
+            {% endif %}
+            {% if app.user %}
+            <li class = "nav-item active">
+                <a class = "nav-link" href = "/food">
+                    <i class="uil uil-pizza-slice"></i>
+                    Food
+                </a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link" href="/about">
+                    <i class="uil uil-subject"></i>
+                    About
+                </a>
+            </li>
+            {% if app.user %}
+            <li class = "nav-item">
+                <a class="nav-link" href = "/user/pie_charts">
+                <i class="uil uil-bolt"></i>
+                Dashboard
+                </a>
+            </li>
+            {% endif %}
+            
+            {% if not app.user %}
+            <li class="nav-item">
+                <a class="nav-link" href="/register">
+                <i class="uil uil-pen"></i>
+                Register
+                </a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link" href="/{{app.user ? 'logout':'login'}}"
+                @click="isOpen = false"
+                >
+                {{app.user ? '
+                <i class="uil uil-signout"></i>
+                Logout
+                ':'
+                <i class="uil uil-signin"></i>
+                Login'}}
+                </a>
+            </li>
+            </ul>
+        </div>
     </nav>
     <br>
 

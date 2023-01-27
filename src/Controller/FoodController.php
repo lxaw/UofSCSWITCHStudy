@@ -20,6 +20,7 @@ use App\Repository\UsdaBrandedFoodRepository;
 use App\Entity\UsdaNonBrandedFood;
 use App\Form\MenustatFoodFormType;
 use App\Form\UsdaBrandedFoodFormType;
+use App\Form\UsdaNonBrandedFoodFormType;
 use App\Repository\UsdaNonBrandedFoodRepository;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -208,6 +209,17 @@ class FoodController extends AbstractController
                 break;
             case "UsdaNonBrandedFood":
                 $foodRepo= $this->em->getRepository(UsdaNonBrandedFood::class);
+                $food = $foodRepo->find($id);
+                $form = $this->createForm(UsdaNonBrandedFoodFormType::class,$food);
+                $form->handleRequest($request);
+                if($form->isSubmitted() && $form->isValid()){
+                    $food->setDescription($form);
+                    $this->em->flush();
+                    return $this->redirectToRoute('FoodController__getFoodById',array(
+                        'strDataType' => $strDataType,
+                        'id'=>$id
+                    ));
+                }
                 break;
         }
 
