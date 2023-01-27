@@ -6,7 +6,7 @@
 
 {% block body %}
 
-<div>
+<div class = "container">
     <h1 class = 'text-center'>
         Eaten on {{date | date('m-d-Y')}}
     </h1>
@@ -67,6 +67,13 @@
                 </div>
             </div>
         {% endfor %}
+    </div>
+    <div>
+        <a href="{{path('FoodController__index')}}">
+            <button class = "btn btn-outline-primary">
+                Back
+            </button>
+        </a>
     </div>
 </div>
 

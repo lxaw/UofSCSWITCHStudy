@@ -46,9 +46,11 @@
             </div>
         </div>
         <div class = 'd-flex justify-content-between'>
-            <button class = 'btn btn-sm btn-outline-primary'>
+            <a href="{{path('FoodController__updateFoodById', {strDataType: get_class(food), id: food.id })}}">
+                <button class = 'btn btn-sm btn-outline-primary'>
                 Edit
-            </button>
+                </button>
+            </a>
             <button class = 'btn btn-sm btn-outline-danger' onclick="window.location.href='/food/delete/{{get_class(food)}}/{{food.id}}'" >
                 Delete
             </button>

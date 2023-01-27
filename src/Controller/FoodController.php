@@ -12,13 +12,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 
-// food entities and repositories
+// food entities and repositorie containers
 use App\Entity\MenustatFood;
 use App\Repository\MenustatRepository;
 use App\Entity\UsdaBrandedFood;
 use App\Repository\UsdaBrandedFoodRepository;
 use App\Entity\UsdaNonBrandedFood;
 use App\Form\MenustatFoodFormType;
+use App\Form\UsdaBrandedFoodFormType;
+use App\Form\UsdaNonBrandedFoodFormType;
 use App\Repository\UsdaNonBrandedFoodRepository;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -171,7 +173,7 @@ class FoodController extends AbstractController
         $foodRepo = NULL;
         $food = NULL;
         // path to render
-        $strRenderPath = "";
+        $strRenderPath = "/food/update.html.twig";
 
         switch($strDataType){
             case "MenustatFood":
@@ -181,21 +183,43 @@ class FoodController extends AbstractController
                 $form = $this->createForm(MenustatFoodFormType::class,$food);
                 $form->handleRequest($request);
                 if($form->isSubmitted() && $form->isValid()){
+                    // To do!
+                    // make so you can update all fields
                     $food->setDescription($form->get('Description')->getData());
                     $this->em->flush();
                     return $this->redirectToRoute('FoodController__getFoodById',array(
                         'strDataType' => $strDataType,
                         'id' => $id
                     ));
-                }else{
-                    $strRenderPath = "/food/menustat/update.html.twig";
                 }
                 break;
             case "UsdaBrandedFood":
                 $foodRepo= $this->em->getRepository(UsdaBrandedFood::class);
+                $food = $foodRepo->find($id);
+                $form = $this->createForm(UsdaBrandedFoodFormType::class,$food);
+                $form->handleRequest($request);
+                if($form->isSubmitted() && $form->isValid()){
+                    $food->setDescription($form);
+                    $this->em->flush();
+                    return $this->redirectToRoute('FoodController__getFoodById',array(
+                        'strDataType' => $strDataType,
+                        'id'=>$id
+                    ));
+                }
                 break;
             case "UsdaNonBrandedFood":
                 $foodRepo= $this->em->getRepository(UsdaNonBrandedFood::class);
+                $food = $foodRepo->find($id);
+                $form = $this->createForm(UsdaNonBrandedFoodFormType::class,$food);
+                $form->handleRequest($request);
+                if($form->isSubmitted() && $form->isValid()){
+                    $food->setDescription($form);
+                    $this->em->flush();
+                    return $this->redirectToRoute('FoodController__getFoodById',array(
+                        'strDataType' => $strDataType,
+                        'id'=>$id
+                    ));
+                }
                 break;
         }
 

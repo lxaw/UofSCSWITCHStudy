@@ -20,14 +20,15 @@
   "private": true,
   "scripts": {
     "dev-server": "encore dev-server",
-    "dev": "webpack --mode development --watch",
+    "dev": "encore dev",
     "watch": "encore dev --watch",
     "build": "encore production --progress"
   },
   "dependencies": {
     "chart.js": "^3.9.1",
     "moment": "^2.29.4",
-    "react-calendar": "^4.0.0"
+    "react-calendar": "^4.0.0",
+    "reactjs-popup": "^2.0.5"
   },
   "name": "mlife",
   "description": "This project is a for the University of South Carolina. It involves the Comprehensive Food Database that can be seen [here](https://github.com/lxaw/ComprehensiveFoodDatabase)",

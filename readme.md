@@ -1,5 +1,5 @@
 # UofSC Nutrient Study
-This project is a for the University of South Carolina. It involves the Comprehensive Food Database that can be seen [here](https://github.com/lxaw/ComprehensiveFoodDatabase)
+This project is a for the SWITCH research study by the University of South Carolina. It involves the Comprehensive Food Database that can be seen [here](https://github.com/lxaw/ComprehensiveFoodDatabase).
 
 This project uses the PHP library [Symfony](https://symfony.com/).
 

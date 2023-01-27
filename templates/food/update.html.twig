@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Update food
+{% endblock title %}
+
+{% block body %}
+
+<div class="container">
+    <div class="d-flex flex-row justify-content-center" style="align-items:center">
+        <div>
+            <img src="{{food.getImgPath}}" alt="{{food.Description}}" class="rounded">
+        </div>
+        <div>
+            <h1>{{food.Description}}</h1>
+        </div>
+    </div>
+    <br>
+    {{form_start(form)}}
+        {{form_widget(form)}}
+        <div class="d-flex justify-content-start mt-3">
+            <button class="btn btn-outline-success">
+                Submit
+            </button>
+        </div> 
+    {{form_end(form)}}
+    <div class = "mt-2">
+        <a href="{{path('FoodController__getFoodById', {strDataType: get_class(food), id: food.id})}}">
+            <button class="btn btn-outline-primary" onclick="">
+                Back
+            </button>
+        </a>
+    </div>
+</div>
+
+{% endblock body %}
