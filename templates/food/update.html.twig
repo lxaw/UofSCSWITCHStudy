@@ -18,10 +18,19 @@
     <br>
     {{form_start(form)}}
         {{form_widget(form)}}
-        <button class="btn btn-outline-success mt-3">
-            Submit
-        </button>
+        <div class="d-flex justify-content-start mt-3">
+            <button class="btn btn-outline-success">
+                Submit
+            </button>
+        </div> 
     {{form_end(form)}}
+    <div class = "mt-2">
+        <a href="{{path('FoodController__getFoodById', {strDataType: get_class(food), id: food.id})}}">
+            <button class="btn btn-outline-primary" onclick="">
+                Back
+            </button>
+        </a>
+    </div>
 </div>
 
 {% endblock body %}

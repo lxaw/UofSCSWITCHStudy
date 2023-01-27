@@ -10,19 +10,23 @@
     <h1 class = 'text-center'>
         Foods
     </h1>
-    <div {{react_component('Calendar', {'marks':dates})}} ></div>
-    <div>
-        <h5>
-            Entries By Date
-        </h5>
-        <div>
-            {% for date in dates %}
-                <div class = 'container border m-3 p-3'>
-                    <a href = "/food/date/{{date}}/" >
-                        Date: {{date | date('m-d-y')}}
-                    </a>
-                </div>
-            {% endfor %}
+    <div class = 'row align-items-start'>
+        <div class = "col-3"
+        {{react_component('Calendar', {'marks':dates})}} class="d-flex align-content-center justify-content-center">
+        </div>
+        <div class = "col-9 container">
+            <h5>
+                Entries By Date
+            </h5>
+            <div>
+                {% for date in dates %}
+                    <div class = 'container border m-3 p-3'>
+                        <a href = "{{ path('FoodController__food-by-date', {date: date} )}}" >
+                            Date: {{date | date('m-d-y')}}
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 

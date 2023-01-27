@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 
-// food entities and repositories
+// food entities and repositorie containers
 use App\Entity\MenustatFood;
 use App\Repository\MenustatRepository;
 use App\Entity\UsdaBrandedFood;
