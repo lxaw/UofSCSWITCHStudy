@@ -10,13 +10,16 @@ import moment from 'moment/moment';
 export default function (props) {
   const [date, setDate] = useState(new Date());
 
+  const [modalIsOpen,setIsOpen] = React.useState(false);
+
+
   const clickDate = (dateObj) =>{
     const strFormattedDate = moment(dateObj).format('YYYY-MM-DD');
-    // document.location.href = `/food/date/${strFormattedDate}/`
     if(props.marks.includes(strFormattedDate)){
-      
-    }else{
-      console.log('there')
+      var changePage = confirm("Would you like to see this date's entries?");
+      if(changePage){
+        document.location.href = `/food/date/${strFormattedDate}/`
+      }
     }
     setDate(dateObj);
   }
@@ -28,12 +31,6 @@ export default function (props) {
             onChange={clickDate} 
             value={date} 
             locale="en-EN"
-            tileContent = {
-              ({activeStateDate, date, view}) => {
-                return view === "month" && date.getDay() === 0 
-                ? <span onClick={clickDate}></span> : null
-              }
-            }
             tileClassName={({ date, view }) => {
               if(props.marks.find(x=>x===moment(date).format("YYYY-MM-DD"))){
                 return "highlight"
