@@ -88,5 +88,6 @@ Here are the pie charts for all the items we ate today. This is the first half o
 And here is the second half. You can scroll to see the foods.
 
 
-
+## ❤️ How to Support ❤️
+- If this code or anyother I have written has helped you, feel free to make a donation at https://www.buymeacoffee.com/whalenlexn.
 
